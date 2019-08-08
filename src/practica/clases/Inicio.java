@@ -1,5 +1,4 @@
 package practica.clases;
-
 import practica.interfaces.MenuPrincipal;
 
 /**
