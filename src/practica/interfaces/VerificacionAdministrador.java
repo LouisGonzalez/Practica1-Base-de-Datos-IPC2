@@ -17,7 +17,6 @@ public class VerificacionAdministrador extends javax.swing.JInternalFrame {
     
     public VerificacionAdministrador() {
         initComponents();
-        login = new ConectorSesion();
     }
 
     @SuppressWarnings("unchecked")
@@ -115,29 +114,36 @@ public class VerificacionAdministrador extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void accederFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accederFormActionPerformed
-        String captura = "";
-        user = usuario.getText();
-        pass = password.getText();
-        String sql = "SELECT * FROM Usuarios WHERE nickname = ? AND password = ? ";
-        try { 
+        if(usuario.getText().equals("") || password.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Debes llenar todas las casillas para continuar");
+        } else {
+            login = new ConectorSesion();
             Connection cn = login.getConnection();
-            PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
-            declaracionPreparada.setString(1, user);
-            declaracionPreparada.setString(2, pass);
-            ResultSet result = declaracionPreparada.executeQuery();
-            while(result.next()){
-                captura=result.getString("tipo_usuario");                
+            String captura = "";
+            user = usuario.getText();
+            pass = password.getText();
+            String sql = "SELECT * FROM Usuarios WHERE nickname = ? AND password = ? ";
+            try { 
+                PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
+                declaracionPreparada.setString(1, user);
+                declaracionPreparada.setString(2, pass);
+                ResultSet result = declaracionPreparada.executeQuery();
+                while(result.next()){
+                    captura=result.getString("tipo_usuario");                
+                }
+                if(captura.equals("Administrador")){
+                    NuevoUsuario nuevo = new NuevoUsuario();
+                    MenuPrincipal.panelPadre.add(nuevo);
+                    nuevo.show();
+                } else {
+                    JOptionPane.showMessageDialog(null, "El usuario que usted agrego no es un administrador");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(VerificacionAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+            } finally{
+                login.Desconectar();
             }
-            if(captura.equals("Administrador")){
-                NuevoUsuario nuevo = new NuevoUsuario();
-                MenuPrincipal.panelPadre.add(nuevo);
-                nuevo.show();
-            } else {
-                JOptionPane.showMessageDialog(null, "El usuario que usted agrego no es un administrador");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(VerificacionAdministrador.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }    
     }//GEN-LAST:event_accederFormActionPerformed
 
 

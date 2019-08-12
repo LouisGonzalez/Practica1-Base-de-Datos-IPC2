@@ -20,7 +20,6 @@ public class NuevoPuntoControl extends javax.swing.JInternalFrame {
     
     public NuevoPuntoControl() {
         initComponents();
-        login = new ConectorSesion();
         
     }
 
@@ -175,54 +174,66 @@ public class NuevoPuntoControl extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_pControlKeyTyped
 
     private void verificadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verificadorActionPerformed
-        Connection cn = login.getConnection();
-        id = Integer.parseInt(idRuta.getText());
-        String captura = "";
-        String sql = "SELECT * FROM Rutas WHERE id = ?";
-        try{
-            PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
-            declaracionPreparada.setInt(1, id);
-            ResultSet result = declaracionPreparada.executeQuery();
-            if(result.next()){
-                captura = result.getString("id");
-                JOptionPane.showMessageDialog(null, "encontrado");
-            } else {
-                JOptionPane.showMessageDialog(null, "No encontrado");
+        if(idRuta.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Debes llenar la casilla de indicada para continuar");
+        } else {
+            login = new ConectorSesion();
+            Connection cn = login.getConnection();
+            id = Integer.parseInt(idRuta.getText());
+            String captura = "";
+            String sql = "SELECT * FROM Rutas WHERE id = ?";
+            try{
+                PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
+                declaracionPreparada.setInt(1, id);
+                ResultSet result = declaracionPreparada.executeQuery();
+                if(result.next()){
+                    captura = result.getString("id");
+                    JOptionPane.showMessageDialog(null, "encontrado");
+                } else {
+                    JOptionPane.showMessageDialog(null, "No encontrado");
+                }            
+            } catch (SQLException ex) {
+                Logger.getLogger(NuevoPuntoControl.class.getName()).log(Level.SEVERE, null, ex);
+            } finally{
+                login.Desconectar();
             }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(NuevoPuntoControl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }    
     }//GEN-LAST:event_verificadorActionPerformed
 
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
-        Connection cn = login.getConnection();
-        id = Integer.parseInt(idRuta.getText());
-        puntos = Integer.parseInt(pControl.getText());
-        String captura = "";
-        String sql = "SELECT * FROM Rutas WHERE id = ?";
-        try{
-            Statement estado = cn.createStatement();
-            PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
-            declaracionPreparada.setInt(1, id);
-            ResultSet result = declaracionPreparada.executeQuery();
-            while(result.next()){
-                captura = result.getString("no_puntos_control");
-            }             
-            int total = Integer.parseInt(captura)+puntos;
-            String nuevoValor = "UPDATE Rutas SET no_puntos_control='"+total+"' WHERE id='"+id+"'";
-            estado.executeUpdate(nuevoValor);
-            for(int i=puntos; i>0; i--){
-               int suma = Integer.parseInt(captura)+i;
-               OperadorPControl pControl = new OperadorPControl(suma, id);
-               MenuPrincipal.panelPadre.add(pControl);
-               pControl.show();
+        if(idRuta.getText().equals("") || pControl.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Debes llenar todas las casillas para continuar");
+        } else {
+            login = new ConectorSesion();
+            Connection cn = login.getConnection();
+            id = Integer.parseInt(idRuta.getText());
+            puntos = Integer.parseInt(pControl.getText());
+            String captura = "";
+            String sql = "SELECT * FROM Rutas WHERE id = ?";
+            try{
+                Statement estado = cn.createStatement();
+                PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
+                declaracionPreparada.setInt(1, id);
+                ResultSet result = declaracionPreparada.executeQuery();
+                while(result.next()){
+                    captura = result.getString("no_puntos_control");
+                }             
+                int total = Integer.parseInt(captura)+puntos;
+                String nuevoValor = "UPDATE Rutas SET no_puntos_control='"+total+"' WHERE id='"+id+"'";
+                estado.executeUpdate(nuevoValor);
+                for(int i=puntos; i>0; i--){
+                    int suma = Integer.parseInt(captura)+i;
+                    OperadorPControl pControl = new OperadorPControl(suma, id);
+                    MenuPrincipal.panelPadre.add(pControl);
+                    pControl.show();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(NuevoPuntoControl.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "no encontrado  ");
+            } finally{
+                login.Desconectar();
             }
-            JOptionPane.showMessageDialog(null, "Puntos de control agregados con exito");
-        } catch (SQLException ex) {
-            Logger.getLogger(NuevoPuntoControl.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "no encontrado  ");
-        }
+        }    
     }//GEN-LAST:event_agregarActionPerformed
 
 

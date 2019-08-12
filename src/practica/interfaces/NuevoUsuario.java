@@ -215,7 +215,7 @@ public class NuevoUsuario extends javax.swing.JInternalFrame {
         conector[1] = apellido.getText();
         conector[2] = domicilio.getText();
         conector[3] = telefono.getText();
-        conector[4] = password.getText().toString();
+        conector[4] = password.getText();
         conector[5] = tipoUsuario.getSelectedItem().toString();
         conector[6] = nick.getText();
         if(conector[0].equals("") || conector[1].equals("") || conector[2].equals("") || conector[3].equals("") || conector[4].equals("") || conector[6].equals("")){
@@ -241,7 +241,7 @@ public class NuevoUsuario extends javax.swing.JInternalFrame {
 
     private void apellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_apellidoKeyTyped
         char v = evt.getKeyChar();
-        if((v<'a' || v>'z') && (v<'A' || v>'Z') && (v<' ' || v>' ')) evt.consume();
+        if((v<'a' || v>'z') && (v<'A' || v>'Z') && (v<' ' || v>' ')) evt.consume();        
     }//GEN-LAST:event_apellidoKeyTyped
 
     private void telefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_telefonoKeyTyped

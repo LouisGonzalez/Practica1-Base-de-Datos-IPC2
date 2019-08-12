@@ -1,6 +1,8 @@
 package practica.interfaces;
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import practica.clases.ConectorSesion;
 
@@ -135,14 +137,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void acceder(){
-        login = new ConectorSesion();
+    private void acceder() throws SQLException{
+        login = new ConectorSesion();       
+        Connection cn = login.getConnection();       
         String captura = "";
         user = usuario.getText();
         pass = password.getText();
         String sql = "SELECT * FROM Usuarios WHERE nickname = ? AND password = ?";  
         try{
-            Connection cn = login.getConnection();
             PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
             declaracionPreparada.setString(1, user);
             declaracionPreparada.setString(2, pass);
@@ -154,28 +156,39 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 MenuAdministrador admin = new MenuAdministrador();
                 this.panelPadre.add(admin);
                 admin.show();
+                usuario.setText("");
+                password.setText("");
             } else if(captura.equals("Operador")){
                 MenuOperador operador = new MenuOperador();
                 this.panelPadre.add(operador);
                 operador.show();
+                usuario.setText("");
+                password.setText("");
             } else if(captura.equals("Recepcionista")){
                 MenuRecepcionista recep = new MenuRecepcionista();
                 this.panelPadre.add(recep);
                 recep.show();
+                usuario.setText("");
+                password.setText("");
             } else{
                 JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectas");
             }
-        } catch(SQLException ex){
-           
-        }
-        
+        } catch(SQLException ex){  
+        } finally{
+            login.Desconectar();
+        }    
     }
     
     private void usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioActionPerformed
     }//GEN-LAST:event_usuarioActionPerformed
 
     private void sesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sesionActionPerformed
-        acceder();
+        try {
+            acceder();
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_sesionActionPerformed
 
     private void txt3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt3MouseClicked

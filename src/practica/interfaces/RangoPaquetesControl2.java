@@ -151,31 +151,38 @@ public class RangoPaquetesControl2 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rangoColaKeyTyped
 
     private void guardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarCambiosActionPerformed
-        Connection cn = login.getConnection();
-        String captura = "";
-        String captura2 = "";
-        rango = Integer.parseInt(rangoCola.getText());
-        String sql = "SELECT * FROM Puntos_control_ruta_"+id+" WHERE id = ?";
-        try{
-        Statement estado = cn.createStatement();
-        PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
-        declaracionPreparada.setInt(1, pControl);
-        ResultSet result = declaracionPreparada.executeQuery();
-        while(result.next()){
-            captura = result.getString("paquetes_maximos");
-            captura2 = result.getString("paquetes_actuales");
-            if(Integer.parseInt(captura2)!=0){
-                JOptionPane.showMessageDialog(null, "Hay paquetes dentro de la cola en este instante por lo tanto no se puede modificar su rango actual");
-            } else {
-                String nuevoValor = "UPDATE Puntos_control_ruta_"+id+" SET paquetes_maximos='"+rango+"' WHERE id='"+pControl+"'";
-                estado.executeUpdate(nuevoValor);
-                JOptionPane.showMessageDialog(null, "El rango del punto de control ha sido modificado con exito");
-                rangoCola.setText("");
-            }
-        }
-        } catch(SQLException e){
+        if(rangoCola.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Debes llenar la casilla para continuar");
+        } else {
+            login = new ConectorSesion();
+            Connection cn = login.getConnection();
+            String captura = "";
+            String captura2 = "";
+            rango = Integer.parseInt(rangoCola.getText());
+            String sql = "SELECT * FROM Puntos_control_ruta_"+id+" WHERE id = ?";
+            try{
+                Statement estado = cn.createStatement();
+                PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
+                declaracionPreparada.setInt(1, pControl);
+                ResultSet result = declaracionPreparada.executeQuery();
+                while(result.next()){
+                    captura = result.getString("paquetes_maximos");
+                    captura2 = result.getString("paquetes_actuales");
+                    if(Integer.parseInt(captura2)!=0){
+                        JOptionPane.showMessageDialog(null, "Hay paquetes dentro de la cola en este instante por lo tanto no se puede modificar su rango actual");
+                    } else {
+                    String nuevoValor = "UPDATE Puntos_control_ruta_"+id+" SET paquetes_maximos='"+rango+"' WHERE id='"+pControl+"'";
+                    estado.executeUpdate(nuevoValor);
+                    JOptionPane.showMessageDialog(null, "El rango del punto de control ha sido modificado con exito");
+                    rangoCola.setText("");
+                    }
+                }
+            } catch(SQLException e){
             
-        }
+            } finally{
+                login.Desconectar();
+            }
+        }    
     }//GEN-LAST:event_guardarCambiosActionPerformed
 
 

@@ -13,14 +13,25 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
     private final ImageIcon nuevaRuta = new ImageIcon("/home/luisitopapurey/Escritorio/Practica 1 IPC2/Practica1 IPC2/src/practica/imagenes/flecha.jpg");
     private final ImageIcon punto = new ImageIcon("/home/luisitopapurey/Escritorio/Practica 1 IPC2/Practica1 IPC2/src/practica/imagenes/mas.png");
     private final ImageIcon rango = new ImageIcon("/home/luisitopapurey/Escritorio/Practica 1 IPC2/Practica1 IPC2/src/practica/imagenes/paquete.jpg");    
+    private final ImageIcon eliminar = new ImageIcon("/home/luisitopapurey/Escritorio/Practica 1 IPC2/Practica1 IPC2/src/practica/imagenes/x-30465_960_720.png");
+    private final ImageIcon imgUsuario = new ImageIcon("/home/luisitopapurey/Escritorio/Practica 1 IPC2/Practica1 IPC2/src/practica/imagenes/usuario.jpg");
+    private final ImageIcon imgCuotas = new ImageIcon("/home/luisitopapurey/Escritorio/Practica 1 IPC2/Practica1 IPC2/src/practica/imagenes/dinero.jpg");
+    
     public MenuAdministrador() {
         initComponents();
+        
         Icon rutas = new ImageIcon(nuevaRuta.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
         Icon puntosControl = new ImageIcon(punto.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
         Icon paquetes = new ImageIcon(rango.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
+        Icon datosBorrados = new ImageIcon(eliminar.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
+        Icon borrarUsuario = new ImageIcon(imgUsuario.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
+        Icon cuota = new ImageIcon(imgCuotas.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
+        cuotas.setIcon(cuota);
+        eliminarDatos.setIcon(datosBorrados);
         ruta.setIcon(rutas);
         puntoControl.setIcon(puntosControl);
         totalPaquete.setIcon(paquetes);
+        usuario.setIcon(borrarUsuario);
     }
 
     @SuppressWarnings("unchecked")
@@ -35,6 +46,16 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
         txt2 = new javax.swing.JLabel();
         txt3 = new javax.swing.JLabel();
         totalPaquete = new javax.swing.JLabel();
+        eliminarDatos = new javax.swing.JLabel();
+        txt4 = new javax.swing.JLabel();
+        txt5 = new javax.swing.JLabel();
+        txt6 = new javax.swing.JLabel();
+        usuario = new javax.swing.JLabel();
+        txt7 = new javax.swing.JLabel();
+        aa1 = new javax.swing.JLabel();
+        cuotas = new javax.swing.JLabel();
+        txt8 = new javax.swing.JLabel();
+        txt9 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -80,46 +101,141 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
             }
         });
 
+        eliminarDatos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        eliminarDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                eliminarDatosMouseClicked(evt);
+            }
+        });
+        eliminarDatos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                eliminarDatosKeyTyped(evt);
+            }
+        });
+
+        txt4.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        txt4.setForeground(new java.awt.Color(153, 0, 0));
+        txt4.setText("Eliminar Datos.");
+
+        txt5.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        txt5.setForeground(new java.awt.Color(153, 0, 0));
+        txt5.setText("Modificar rango de un");
+
+        txt6.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        txt6.setForeground(new java.awt.Color(153, 0, 0));
+        txt6.setText("punto de control.");
+
+        usuario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        usuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                usuarioMouseClicked(evt);
+            }
+        });
+
+        txt7.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        txt7.setForeground(new java.awt.Color(153, 0, 0));
+        txt7.setText("Eliminar Usuarios.");
+
+        cuotas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        cuotas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cuotasMouseClicked(evt);
+            }
+        });
+
+        txt8.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        txt8.setForeground(new java.awt.Color(153, 0, 0));
+        txt8.setText("Modificar costo de");
+
+        txt9.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        txt9.setForeground(new java.awt.Color(153, 0, 0));
+        txt9.setText("las tarifas.");
+
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(aa1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(184, 184, 184))
             .addGroup(panelFondoLayout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(ruta, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-                    .addComponent(txt1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addComponent(puntoControl, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51)
-                        .addComponent(totalPaquete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
+                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cuotas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txt1, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
+                        .addGap(1, 1, 1)
+                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelFondoLayout.createSequentialGroup()
+                                .addGap(43, 43, 43)
+                                .addComponent(puntoControl, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(66, 66, 66)
+                                .addComponent(totalPaquete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelFondoLayout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addComponent(eliminarDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(66, 66, 66)
+                                .addComponent(usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(txt3, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
+                        .addComponent(txt8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelFondoLayout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txt4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt3, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt5, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelFondoLayout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt7, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt6, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(81, Short.MAX_VALUE))
+                        .addGap(44, 44, 44)
+                        .addComponent(txt9, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
-                .addGap(53, 53, 53)
+                .addGap(21, 21, 21)
+                .addComponent(aa1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(totalPaquete, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-                    .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(puntoControl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ruta, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)))
+                    .addComponent(puntoControl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ruta, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt1)
-                    .addComponent(txt2))
+                    .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt5)
+                    .addComponent(txt1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txt3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
+                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt3)
+                    .addComponent(txt6))
+                .addGap(18, 18, 18)
+                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cuotas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                    .addComponent(eliminarDatos, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt4)
+                    .addComponent(txt7)
+                    .addComponent(txt8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -147,8 +263,35 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
         rango.show();
     }//GEN-LAST:event_totalPaqueteMouseClicked
 
+    private void eliminarDatosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eliminarDatosKeyTyped
+    }//GEN-LAST:event_eliminarDatosKeyTyped
+
+    private void eliminarDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminarDatosMouseClicked
+        EliminarDatos datoBorrado = new EliminarDatos();
+        MenuPrincipal.panelPadre.add(datoBorrado);
+        datoBorrado.show();
+    }//GEN-LAST:event_eliminarDatosMouseClicked
+
+    private void usuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuarioMouseClicked
+        EliminarUsuarios usuario = new EliminarUsuarios();
+        MenuPrincipal.panelPadre.add(usuario);
+        usuario.show();
+    }//GEN-LAST:event_usuarioMouseClicked
+
+    private void cuotasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cuotasMouseClicked
+        /*ModificarCuotas cuotas = new ModificarCuotas();
+        MenuPrincipal.panelPadre.add(cuotas);
+        cuotas.show();*/
+        MenuCuotas cuota = new MenuCuotas();
+        MenuPrincipal.panelPadre.add(cuota);
+        cuota.show();
+    }//GEN-LAST:event_cuotasMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel aa1;
+    private javax.swing.JLabel cuotas;
+    private javax.swing.JLabel eliminarDatos;
     private javax.swing.JPanel panel2;
     private javax.swing.JPanel panelFondo;
     private javax.swing.JLabel puntoControl;
@@ -157,5 +300,12 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
     private javax.swing.JLabel txt1;
     private javax.swing.JLabel txt2;
     private javax.swing.JLabel txt3;
+    private javax.swing.JLabel txt4;
+    private javax.swing.JLabel txt5;
+    private javax.swing.JLabel txt6;
+    private javax.swing.JLabel txt7;
+    private javax.swing.JLabel txt8;
+    private javax.swing.JLabel txt9;
+    private javax.swing.JLabel usuario;
     // End of variables declaration//GEN-END:variables
 }

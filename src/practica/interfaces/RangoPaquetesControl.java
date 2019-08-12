@@ -17,7 +17,6 @@ public class RangoPaquetesControl extends javax.swing.JInternalFrame {
     
     public RangoPaquetesControl() {
         initComponents();
-        login = new ConectorSesion();
     }
 
     @SuppressWarnings("unchecked")
@@ -110,6 +109,7 @@ public class RangoPaquetesControl extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buscadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscadorActionPerformed
+        login = new ConectorSesion();
         if(idRuta.getText().equals("") || noPControl.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Debes llenar ambos parametros");
         } else { 
@@ -137,6 +137,8 @@ public class RangoPaquetesControl extends javax.swing.JInternalFrame {
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(RangoPaquetesControl.class.getName()).log(Level.SEVERE, null, ex);
+            } finally{
+                login.Desconectar();
             }
         }
     }//GEN-LAST:event_buscadorActionPerformed

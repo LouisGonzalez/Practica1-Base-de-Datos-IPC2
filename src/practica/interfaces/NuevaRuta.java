@@ -16,7 +16,6 @@ public class NuevaRuta extends javax.swing.JInternalFrame {
     
     public NuevaRuta() {
         initComponents();
-        login = new ConectorSesion(); 
         
     }
 
@@ -137,37 +136,50 @@ public class NuevaRuta extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void guardarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarDatosActionPerformed
-        Connection cn = login.getConnection();
-        destinos = ciudades.getSelectedItem().toString();
-        op = operador.getText();
-        String captura = "";
-        String captura2 ="";
-        String sql = "SELECT * FROM Usuarios WHERE nickname = ?";
-        String rs = "SELECT * FROM Rutas ORDER BY id DESC LIMIT 1";
-        try {
-            Statement estado = cn.createStatement();
-            PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
-            declaracionPreparada.setString(1, op);
-            ResultSet result2 = declaracionPreparada.executeQuery();
-            while(result2.next()){
-                captura = result2.getString("tipo_usuario");
-            }
-            if(captura.equals("Operador")){
-                estado.executeUpdate("INSERT INTO Rutas VALUES('"+0+"','"+1+"','"+destinos+"')");
-                ResultSet res = estado.executeQuery(rs);
-                while(res.next()){
-                    captura2 = res.getString("id"); 
+        if(operador.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Debes llenar la casilla para continuar");
+        } else {
+            login =  new ConectorSesion();
+            Connection cn = login.getConnection();
+            destinos = ciudades.getSelectedItem().toString();
+            op = operador.getText();
+            String captura = "";
+            String captura2 ="";
+            int valor = 0;
+            String sql = "SELECT * FROM Usuarios WHERE nickname = ?";
+            String rs = "SELECT * FROM Rutas ORDER BY id DESC LIMIT 1";
+            String cuota = "SELECT * FROM Cuotas WHERE id = 1";
+            try {
+                Statement estado = cn.createStatement();
+                PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
+                declaracionPreparada.setString(1, op);
+                ResultSet result2 = declaracionPreparada.executeQuery();
+                while(result2.next()){
+                    captura = result2.getString("tipo_usuario");
                 }
-                JOptionPane.showMessageDialog(null, captura2);
-                estado.executeUpdate("CREATE TABLE Puntos_control_ruta_"+captura2+" (id INT AUTO_INCREMENT PRIMARY KEY, paquetes_actuales INT, paquetes_maximos INT, operador_al_mando VARCHAR(40) );");
-                estado.executeUpdate("INSERT INTO Puntos_control_ruta_"+captura2+" VALUES('"+0+"','"+0+"','"+5+"','"+op+"')");
-                JOptionPane.showMessageDialog(null, "La ruta ha sido agregada con exito");                    
-            } else {
-                JOptionPane.showMessageDialog(null, "El usuario que usted busca no es un operador");
+                ResultSet result3 = estado.executeQuery(cuota);
+                while(result3.next()){
+                    valor = result3.getInt("total");
+                }
+                if(captura.equals("Operador")){
+                    estado.executeUpdate("INSERT INTO Rutas VALUES('"+0+"','"+1+"','"+destinos+"')");
+                    ResultSet res = estado.executeQuery(rs);
+                    while(res.next()){
+                        captura2 = res.getString("id"); 
+                    }
+                    JOptionPane.showMessageDialog(null, captura2);
+                    estado.executeUpdate("CREATE TABLE Puntos_control_ruta_"+captura2+" (id INT AUTO_INCREMENT PRIMARY KEY, paquetes_actuales INT, paquetes_maximos INT, operador_al_mando VARCHAR(40), cuota_operacion VARCHAR(40), FOREIGN KEY (operador_al_mando) REFERENCES Usuarios (nickname) );");
+                    estado.executeUpdate("INSERT INTO Puntos_control_ruta_"+captura2+" VALUES('"+0+"','"+0+"','"+5+"','"+op+"','"+valor+"')");
+                    JOptionPane.showMessageDialog(null, "La ruta ha sido agregada con exito");                    
+                } else {
+                    JOptionPane.showMessageDialog(null, "El usuario que usted busca no es un operador");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(NuevaRuta.class.getName()).log(Level.SEVERE, null, ex);
+            } finally{
+                login.Desconectar();
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(NuevaRuta.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }    
     }//GEN-LAST:event_guardarDatosActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -18,7 +18,6 @@ public class OperadorPControl extends javax.swing.JInternalFrame {
     
     public OperadorPControl(int i, int id) {
         initComponents();
-        login = new ConectorSesion();
         this.id = id;
         txt1.setText("Operador a cargo del p. Control no. "+i);
     }
@@ -83,28 +82,42 @@ public class OperadorPControl extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void nombrarOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombrarOpActionPerformed
-        Connection cn = login.getConnection();
-        verOperador = operador.getText();
-        String captura = "";
-        String sql = "SELECT * FROM Usuarios WHERE nickname = ?";
-        try {
-            Statement estado = cn.createStatement();
-            PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
-            declaracionPreparada.setString(1, verOperador);
-            ResultSet result = declaracionPreparada.executeQuery();
-            while(result.next()){
-                captura = result.getString("tipo_usuario");
+        if(operador.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Debes llenar la casilla para continuar");
+        } else {
+            login = new ConectorSesion();
+            Connection cn = login.getConnection();
+            verOperador = operador.getText();
+            String captura = "";
+            int valorCuota = 0;
+            String sql = "SELECT * FROM Usuarios WHERE nickname = ?";
+            String cuota = "SELECT * FROM Cuotas WHERE id = 1";
+            try {
+                Statement estado = cn.createStatement();
+                PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
+                declaracionPreparada.setString(1, verOperador);
+                ResultSet result = declaracionPreparada.executeQuery();
+                PreparedStatement declaracionCuota = cn.prepareStatement(cuota);
+                ResultSet result2 = declaracionCuota.executeQuery();
+                while(result.next()){
+                    captura = result.getString("tipo_usuario");
+                }
+                while(result2.next()){
+                    valorCuota = result2.getInt("total");
+                }
+                if(captura.equals("Operador")){
+                    estado.executeUpdate("INSERT INTO Puntos_control_ruta_"+id+" VALUES('"+0+"','"+0+"','"+5+"','"+verOperador+"','"+valorCuota+"')");
+                    JOptionPane.showMessageDialog(null, "Operador agregado con exito");
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "El usuario que usted busca no es un operador");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(OperadorPControl.class.getName()).log(Level.SEVERE, null, ex);
+            } finally{
+                login.Desconectar();
             }
-            if(captura.equals("Operador")){
-                estado.executeUpdate("INSERT INTO Puntos_control_ruta_"+id+" VALUES('"+0+"','"+0+"','"+5+"','"+verOperador+"')");
-                JOptionPane.showMessageDialog(null, "Operador agregado con exito");
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "El usuario que usted busca no es un operador");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(OperadorPControl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }    
     }//GEN-LAST:event_nombrarOpActionPerformed
 
 

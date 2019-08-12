@@ -103,7 +103,7 @@ public class MenuRecepcionista extends javax.swing.JInternalFrame {
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(paqueteEntregado, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt4, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap(165, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,21 +116,25 @@ public class MenuRecepcionista extends javax.swing.JInternalFrame {
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt3)
                     .addComponent(txt4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 199, Short.MAX_VALUE)
                 .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        getContentPane().add(panelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 410, 280));
+        getContentPane().add(panelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 500, 430));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void nuevoPaqueteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nuevoPaqueteMouseClicked
-            
+        IngresoPaquetes paqueteIngreso = new IngresoPaquetes();
+        MenuPrincipal.panelPadre.add(paqueteIngreso);
+        paqueteIngreso.show();
     }//GEN-LAST:event_nuevoPaqueteMouseClicked
 
     private void paqueteEntregadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paqueteEntregadoMouseClicked
-        
+        EgresoPaquetes paqueteEgreso = new EgresoPaquetes();
+        MenuPrincipal.panelPadre.add(paqueteEgreso);
+        paqueteEgreso.show();
     }//GEN-LAST:event_paqueteEntregadoMouseClicked
 
 
