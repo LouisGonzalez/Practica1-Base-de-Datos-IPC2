@@ -15,6 +15,7 @@ public class EliminarRutas extends javax.swing.JInternalFrame {
     private ConectorSesion login;
     private int id, lastId;
     private int[] captura2;
+    private final String estadoRuta = "DESACTIVADA";
     
     public EliminarRutas() {
         initComponents();
@@ -168,8 +169,7 @@ public class EliminarRutas extends javax.swing.JInternalFrame {
             int captura;
             String sql = "SELECT * FROM Puntos_control_ruta_"+id+" ORDER BY id DESC LIMIT 1";
             String sql2 = "SELECT * FROM Puntos_control_ruta_"+id+" WHERE id = ?";
-            String borrarRuta = "DELETE FROM Rutas WHERE id = ?";
-            String borrarPControl = "DROP TABLE Puntos_control_ruta_?";
+            String desactivar = "UPDATE Rutas SET estado = '"+estadoRuta+"' WHERE id = ?";
             try{
                 Statement estado = cn.createStatement();
                 ResultSet res = estado.executeQuery(sql);
@@ -188,12 +188,9 @@ public class EliminarRutas extends javax.swing.JInternalFrame {
                         }
                     }
                     if(interruptor == true){
-                        PreparedStatement declaracionRuta = cn.prepareStatement(borrarRuta);
-                        PreparedStatement declaracionPControl = cn.prepareStatement(borrarPControl);
+                        PreparedStatement declaracionRuta = cn.prepareStatement(desactivar);
                         declaracionRuta.setInt(1, id);
-                        declaracionPControl.setInt(1, id);
                         declaracionRuta.execute();
-                        declaracionPControl.execute(); 
                     } else {
                         JOptionPane.showMessageDialog(null, "En este momento hay uno o varios puntos de control con actividad");
                     }          

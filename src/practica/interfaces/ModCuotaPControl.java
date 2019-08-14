@@ -149,6 +149,7 @@ public class ModCuotaPControl extends javax.swing.JInternalFrame {
         } else {
             login = new ConectorSesion();
             Connection cn = login.getConnection();
+            String estadoActual = "";
             idRuta = Integer.parseInt(ruta.getText());
             idPControl = Integer.parseInt(pControl.getText());
             nuevoValor = Integer.parseInt(cuotaLaboral.getText());
@@ -160,16 +161,21 @@ public class ModCuotaPControl extends javax.swing.JInternalFrame {
                 declaracionRuta.setInt(1, idRuta);
                 ResultSet result = declaracionRuta.executeQuery();
                 if(result.next()){
-                    PreparedStatement declaracionPControl = cn.prepareStatement(sql2);
-                    declaracionPControl.setInt(1, idPControl);
-                    ResultSet result2 = declaracionPControl.executeQuery();
-                    if(result2.next()){
-                        PreparedStatement declaracionValor = cn.prepareStatement(cuota);
-                        declaracionValor.setInt(1, nuevoValor);
-                        declaracionValor.execute();
-                        JOptionPane.showMessageDialog(null, "La operacion ha sido concretada con exito");
+                    estadoActual = result.getString("estado");
+                    if(estadoActual.equals("DESACTIVADA")){
+                        JOptionPane.showMessageDialog(null, "Esta ruta se encuentra desactivada por el momento, porfavor activala antes de seguir con el proceso");
                     } else {
-                        JOptionPane.showMessageDialog(null, "La ruta ha sido encontrada mas sin embargo el punto de control que buscas no existe");
+                        PreparedStatement declaracionPControl = cn.prepareStatement(sql2);
+                        declaracionPControl.setInt(1, idPControl);
+                        ResultSet result2 = declaracionPControl.executeQuery();
+                        if(result2.next()){
+                            PreparedStatement declaracionValor = cn.prepareStatement(cuota);
+                            declaracionValor.setInt(1, nuevoValor);
+                            declaracionValor.execute();
+                            JOptionPane.showMessageDialog(null, "La operacion ha sido concretada con exito");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "La ruta ha sido encontrada mas sin embargo el punto de control que buscas no existe");
+                        }
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "La ruta que buscas no ha sido localizada");

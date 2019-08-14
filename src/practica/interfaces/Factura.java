@@ -388,12 +388,38 @@ public class Factura extends javax.swing.JInternalFrame {
             destinoPaquete = destino.getSelectedItem().toString();
             totalPaquetes = Integer.parseInt(cajaPaquetes.getText());
             pagoTotal = Integer.parseInt(total.getText());
+            int paqueteSistema = 0;
+            int ingresoCliente = 0;
+            int nuevoValor = 0;
+            int nuevoValor2 = 0;
             String sql = "INSERT INTO Bodega VALUES ('"+0+"','"+nit+"','"+pagoPrioridad+"','"+destinoPaquete+"')";
             String nuevaVenta = "INSERT INTO Ventas VALUES ('"+0+"','"+nit+"','"+totalPaquetes+"','"+pagoTotal+"')";                            
+            String cliente = "SELECT * FROM Clientes WHERE nit = ?";
+            String dato = "UPDATE Clientes SET paquetes_en_sistema = ? WHERE nit = ?";
+            String dato2 = "UPDATE Clientes SET ingresos_cliente = ? WHERE nit = ?";
             try{
-                PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
+                PreparedStatement declaracionCliente = cn.prepareStatement(cliente);
+                declaracionCliente.setInt(1, nit);
+                ResultSet result = declaracionCliente.executeQuery();
+                while(result.next()){
+                    paqueteSistema = result.getInt("paquetes_en_sistema");
+                    ingresoCliente = result.getInt("ingresos_cliente");
+                }
+                nuevoValor = ingresoCliente + pagoTotal;
+                nuevoValor2 = paqueteSistema + totalPaquetes;
+                PreparedStatement declaracionValor = cn.prepareStatement(dato);
+                declaracionValor.setInt(1, nuevoValor2);
+                declaracionValor.setInt(2, nit);
+                declaracionValor.execute();
+                PreparedStatement declaracionValor2 = cn.prepareStatement(dato2);
+                declaracionValor2.setInt(1, nuevoValor);
+                declaracionValor2.setInt(2, nit);
+                declaracionValor2.execute();
+                for(int i = 1; i <= totalPaquetes; i++) {
+                    PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
+                    declaracionPreparada.execute();                    
+                }
                 PreparedStatement declaracionVenta = cn.prepareStatement(nuevaVenta);
-                declaracionPreparada.execute();
                 declaracionVenta.execute();
                 JOptionPane.showMessageDialog(null, "Transaccion exitosa");
             } catch (SQLException ex) {

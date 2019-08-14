@@ -116,7 +116,8 @@ public class RangoPaquetesControl extends javax.swing.JInternalFrame {
         Connection cn = login.getConnection();
         valorId = Integer.parseInt(idRuta.getText());
         valorPControl = Integer.parseInt(noPControl.getText());
-        String captura="";
+        String captura = "";
+        String estadoActual = "";
         String sql = "SELECT * FROM Rutas WHERE id = ?";        
             try{
                 PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
@@ -124,13 +125,19 @@ public class RangoPaquetesControl extends javax.swing.JInternalFrame {
                 ResultSet result = declaracionPreparada.executeQuery();
                 if(result.next()){
                     captura = result.getString("no_puntos_control");
-                    if(valorPControl<=Integer.parseInt(captura)){
-                        JOptionPane.showMessageDialog(null, "Se ha encontrado la ruta y el punto de control");
-                        RangoPaquetesControl2 control = new RangoPaquetesControl2(valorId, valorPControl);
-                        MenuPrincipal.panelPadre.add(control);
-                        control.show();
+                    estadoActual = result.getString("estado");
+                    if(estadoActual.equals("DESACTIVADA")){
+                        JOptionPane.showMessageDialog(null, "La ruta se encuentra desactivada por el momento, activala antes de seguir con el proceso");
                     } else {
-                        JOptionPane.showMessageDialog(null, "Valor no encontrado en la base de datos");
+                        if(valorPControl<=Integer.parseInt(captura)){
+                            JOptionPane.showMessageDialog(null, "Se ha encontrado la ruta y el punto de control");
+                            RangoPaquetesControl2 control = new RangoPaquetesControl2(valorId, valorPControl);
+                            MenuPrincipal.panelPadre.add(control);
+                            control.show();
+                        } 
+                        else {
+                            JOptionPane.showMessageDialog(null, "Valor no encontrado en la base de datos");
+                        }
                     }
                 } else{
                     JOptionPane.showMessageDialog(null, "Esta id no existe en la base de datos");

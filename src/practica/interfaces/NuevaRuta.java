@@ -13,6 +13,7 @@ public class NuevaRuta extends javax.swing.JInternalFrame {
     
     ConectorSesion login;
     private String destinos, op;
+    private final String estadoRuta = "ACTIVADA";
     
     public NuevaRuta() {
         initComponents();
@@ -162,7 +163,7 @@ public class NuevaRuta extends javax.swing.JInternalFrame {
                     valor = result3.getInt("total");
                 }
                 if(captura.equals("Operador")){
-                    estado.executeUpdate("INSERT INTO Rutas VALUES('"+0+"','"+1+"','"+destinos+"')");
+                    estado.executeUpdate("INSERT INTO Rutas VALUES('"+0+"','"+1+"','"+destinos+"','"+estadoRuta+"')");
                     ResultSet res = estado.executeQuery(rs);
                     while(res.next()){
                         captura2 = res.getString("id"); 

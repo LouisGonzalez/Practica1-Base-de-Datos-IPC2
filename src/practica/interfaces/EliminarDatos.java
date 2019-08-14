@@ -32,7 +32,7 @@ public class EliminarDatos extends javax.swing.JInternalFrame {
             }
         });
 
-        eliminarRutas.setText("Eliminar Rutas");
+        eliminarRutas.setText("Desactivar Rutas");
         eliminarRutas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 eliminarRutasActionPerformed(evt);

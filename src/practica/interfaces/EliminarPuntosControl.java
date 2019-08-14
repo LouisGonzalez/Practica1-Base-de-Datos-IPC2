@@ -169,6 +169,7 @@ public class EliminarPuntosControl extends javax.swing.JInternalFrame {
         } else {
             login = new ConectorSesion();
             Connection cn = login.getConnection();
+            String estadoActual = "";
             idRuta = Integer.parseInt(ruta.getText());
             idPControl = Integer.parseInt(pControl.getText());
             int captura;
@@ -180,23 +181,28 @@ public class EliminarPuntosControl extends javax.swing.JInternalFrame {
                 declaracionPreparada.setInt(1, idRuta);
                 ResultSet result = declaracionPreparada.executeQuery();
                 if(result.next()){
-                    PreparedStatement declaracionPunto = cn.prepareStatement(sql2);
-                    declaracionPunto.setInt(1, idPControl);
-                    ResultSet result2 = declaracionPunto.executeQuery();
-                    if(result2.next()){
-                        captura = result2.getInt("paquetes_actuales");
-                        if(captura==0){
-                            PreparedStatement borrarPunto = cn.prepareStatement(borrarPControl);
-                            borrarPunto.setInt(1, idPControl);
-                            borrarPunto.execute();
-                            JOptionPane.showMessageDialog(null, "El punto de control no. "+idPControl+" ha sido borrado con exito");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "En este momento el punto de control que usted desea eliminar no se encuentra vacio");
-                        }
+                    estadoActual = result.getString("estado");
+                    if(estadoActual.equals("DESACTIVADA")){
+                        JOptionPane.showMessageDialog(null, "Esta ruta se encuentra desactivada por el momento, activala antes de seguir con el proceso");
                     } else {
-                        JOptionPane.showMessageDialog(null, "La ruta ha sido encontrada mas sin embargo no el punto de control");
-                    }     
-                } else {
+                        PreparedStatement declaracionPunto = cn.prepareStatement(sql2);
+                        declaracionPunto.setInt(1, idPControl);
+                        ResultSet result2 = declaracionPunto.executeQuery();
+                        if(result2.next()){
+                            captura = result2.getInt("paquetes_actuales");
+                            if(captura==0){
+                                PreparedStatement borrarPunto = cn.prepareStatement(borrarPControl);
+                                borrarPunto.setInt(1, idPControl);
+                                borrarPunto.execute();
+                                JOptionPane.showMessageDialog(null, "El punto de control no. "+idPControl+" ha sido borrado con exito");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "En este momento el punto de control que usted desea eliminar no se encuentra vacio");
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "La ruta ha sido encontrada mas sin embargo no el punto de control");
+                        }     
+                    }
+                }else {
                     JOptionPane.showMessageDialog(null, "Ruta no encontrada en la base de datos");
                 }
             } catch (SQLException ex) {

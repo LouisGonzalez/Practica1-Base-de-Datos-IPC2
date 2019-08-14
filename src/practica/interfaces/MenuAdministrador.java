@@ -229,7 +229,7 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
                     .addComponent(usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                     .addComponent(eliminarDatos, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txt4)
                     .addComponent(txt7)
                     .addComponent(txt8))
@@ -279,9 +279,6 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_usuarioMouseClicked
 
     private void cuotasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cuotasMouseClicked
-        /*ModificarCuotas cuotas = new ModificarCuotas();
-        MenuPrincipal.panelPadre.add(cuotas);
-        cuotas.show();*/
         MenuCuotas cuota = new MenuCuotas();
         MenuPrincipal.panelPadre.add(cuota);
         cuota.show();

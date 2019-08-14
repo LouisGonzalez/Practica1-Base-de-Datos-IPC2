@@ -209,6 +209,7 @@ public class NuevoPuntoControl extends javax.swing.JInternalFrame {
             id = Integer.parseInt(idRuta.getText());
             puntos = Integer.parseInt(pControl.getText());
             String captura = "";
+            String estadoActual = "";
             String sql = "SELECT * FROM Rutas WHERE id = ?";
             try{
                 Statement estado = cn.createStatement();
@@ -217,15 +218,20 @@ public class NuevoPuntoControl extends javax.swing.JInternalFrame {
                 ResultSet result = declaracionPreparada.executeQuery();
                 while(result.next()){
                     captura = result.getString("no_puntos_control");
+                    estadoActual = result.getString("estado");
                 }             
-                int total = Integer.parseInt(captura)+puntos;
-                String nuevoValor = "UPDATE Rutas SET no_puntos_control='"+total+"' WHERE id='"+id+"'";
-                estado.executeUpdate(nuevoValor);
-                for(int i=puntos; i>0; i--){
-                    int suma = Integer.parseInt(captura)+i;
-                    OperadorPControl pControl = new OperadorPControl(suma, id);
-                    MenuPrincipal.panelPadre.add(pControl);
-                    pControl.show();
+                if(estadoActual.equals("DESACTIVADA")){
+                    JOptionPane.showMessageDialog(null, "Esta ruta se encuentra desactivada por el momento, activala antes de seguir con el proceso");
+                } else {
+                    int total = Integer.parseInt(captura)+puntos;
+                    String nuevoValor = "UPDATE Rutas SET no_puntos_control='"+total+"' WHERE id='"+id+"'";
+                    estado.executeUpdate(nuevoValor);
+                    for(int i=puntos; i>0; i--){
+                        int suma = Integer.parseInt(captura)+i;
+                        OperadorPControl pControl = new OperadorPControl(suma, id);
+                        MenuPrincipal.panelPadre.add(pControl);
+                        pControl.show();
+                    }
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(NuevoPuntoControl.class.getName()).log(Level.SEVERE, null, ex);

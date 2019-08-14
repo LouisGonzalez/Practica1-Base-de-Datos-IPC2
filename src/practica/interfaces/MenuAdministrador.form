@@ -137,10 +137,10 @@
                       <Component id="eliminarDatos" alignment="0" pref="90" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="txt4" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="txt7" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="txt8" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt8" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="txt9" min="-2" max="-2" attributes="0"/>
