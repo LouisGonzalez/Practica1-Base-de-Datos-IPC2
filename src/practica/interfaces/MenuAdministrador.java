@@ -119,11 +119,11 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
 
         txt5.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         txt5.setForeground(new java.awt.Color(153, 0, 0));
-        txt5.setText("Modificar rango de un");
+        txt5.setText("Activar rutas o rango de");
 
         txt6.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         txt6.setForeground(new java.awt.Color(153, 0, 0));
-        txt6.setText("punto de control.");
+        txt6.setText("un punto de control");
 
         usuario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         usuario.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -191,18 +191,19 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
                                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(txt4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txt3, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt5, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelFondoLayout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt7, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt6, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt5))
+                            .addGroup(panelFondoLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txt6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txt7, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)))))
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addComponent(txt9, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,9 +259,9 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_puntoControlMouseClicked
 
     private void totalPaqueteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_totalPaqueteMouseClicked
-        RangoPaquetesControl rango = new RangoPaquetesControl();
-        MenuPrincipal.panelPadre.add(rango);
-        rango.show();
+        ModificadorTablas tabla = new ModificadorTablas();
+        MenuPrincipal.panelPadre.add(tabla);
+        tabla.show();
     }//GEN-LAST:event_totalPaqueteMouseClicked
 
     private void eliminarDatosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eliminarDatosKeyTyped

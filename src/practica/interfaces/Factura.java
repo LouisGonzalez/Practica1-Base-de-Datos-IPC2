@@ -336,7 +336,7 @@ public class Factura extends javax.swing.JInternalFrame {
         String precioLibra = "SELECT * FROM Cuotas WHERE id = 4";
         String cuotaDestino = "SELECT * FROM Cuotas WHERE id = 2";
         String cuotaVip = "SELECT * FROM Cuotas WHERE id = 3";
-        try{
+        try {
             PreparedStatement declaracionLibra = cn.prepareStatement(precioLibra);
             PreparedStatement declaracionVip = cn.prepareStatement(cuotaVip);
             PreparedStatement declaracionDestino = cn.prepareStatement(cuotaDestino);
@@ -357,7 +357,7 @@ public class Factura extends javax.swing.JInternalFrame {
             for(int i=0; i<filas; i++){
                 valores = (String) dtmModel.getValueAt(i, 1);
                 conversion = Integer.parseInt(valores)*valorLibra;
-                totales = totales + conversion;
+                totales = totales + conversion;                
             }
             if(pagoPrioridad.equals("NO")){
                 totalFinal = totales + valorCDestino;
