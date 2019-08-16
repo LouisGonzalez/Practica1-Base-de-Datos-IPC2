@@ -392,11 +392,13 @@ public class Factura extends javax.swing.JInternalFrame {
             int ingresoCliente = 0;
             int nuevoValor = 0;
             int nuevoValor2 = 0;
-            String sql = "INSERT INTO Bodega VALUES ('"+0+"','"+nit+"','"+pagoPrioridad+"','"+destinoPaquete+"')";
+            int codigoVenta = 0;
             String nuevaVenta = "INSERT INTO Ventas VALUES ('"+0+"','"+nit+"','"+totalPaquetes+"','"+pagoTotal+"')";                            
             String cliente = "SELECT * FROM Clientes WHERE nit = ?";
             String dato = "UPDATE Clientes SET paquetes_en_sistema = ? WHERE nit = ?";
             String dato2 = "UPDATE Clientes SET ingresos_cliente = ? WHERE nit = ?";
+            String idVenta = "SELECT * FROM Ventas ORDER BY id DESC LIMIT 1";
+                
             try{
                 PreparedStatement declaracionCliente = cn.prepareStatement(cliente);
                 declaracionCliente.setInt(1, nit);
@@ -415,13 +417,19 @@ public class Factura extends javax.swing.JInternalFrame {
                 declaracionValor2.setInt(1, nuevoValor);
                 declaracionValor2.setInt(2, nit);
                 declaracionValor2.execute();
+                PreparedStatement declaracionVenta = cn.prepareStatement(nuevaVenta);
+                declaracionVenta.execute();
+                PreparedStatement declaracionIdVenta = cn.prepareStatement(idVenta);
+                ResultSet result10 = declaracionIdVenta.executeQuery();
+                while(result10.next()){
+                    codigoVenta = result10.getInt("id");
+                }
                 for(int i = 1; i <= totalPaquetes; i++) {
+                    String sql = "INSERT INTO Bodega VALUES ('"+0+"','"+nit+"','"+pagoPrioridad+"','"+destinoPaquete+"','"+codigoVenta+"','"+i+"')";
                     PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
                     declaracionPreparada.execute();                    
                 }
-                PreparedStatement declaracionVenta = cn.prepareStatement(nuevaVenta);
-                declaracionVenta.execute();
-                JOptionPane.showMessageDialog(null, "Transaccion exitosa");
+                    JOptionPane.showMessageDialog(null, "Transaccion exitosa");
             } catch (SQLException ex) {
                 Logger.getLogger(Factura.class.getName()).log(Level.SEVERE, null, ex);
             } finally {

@@ -153,19 +153,19 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 captura=result2.getString("tipo_usuario");
             }    
             if(captura.equals("Administrador")){
-                MenuAdministrador admin = new MenuAdministrador();
+                MenuAdministrador admin = new MenuAdministrador(usuario.getText());
                 this.panelPadre.add(admin);
                 admin.show();
                 usuario.setText("");
                 password.setText("");
             } else if(captura.equals("Operador")){
-                MenuOperador operador = new MenuOperador();
+                MenuOperador operador = new MenuOperador(usuario.getText());
                 this.panelPadre.add(operador);
                 operador.show();
                 usuario.setText("");
                 password.setText("");
             } else if(captura.equals("Recepcionista")){
-                MenuRecepcionista recep = new MenuRecepcionista();
+                MenuRecepcionista recep = new MenuRecepcionista(usuario.getText());
                 this.panelPadre.add(recep);
                 recep.show();
                 usuario.setText("");

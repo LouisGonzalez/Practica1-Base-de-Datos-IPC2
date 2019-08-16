@@ -112,16 +112,16 @@ public class ActivadorRuta extends javax.swing.JInternalFrame {
             String estado  = "";
             String sql = "SELECT * FROM Rutas WHERE id = ?";
             String actualizacion = "UPDATE Rutas SET estado = 'ACTIVADA' WHERE id = ?";
-            try{
+            try {
                 PreparedStatement declaracionRuta = cn.prepareStatement(sql);
                 declaracionRuta.setInt(1, ruta);
                 ResultSet result = declaracionRuta.executeQuery();
-                while(result.next()){
+                while(result.next()) {
                     estado = result.getString("estado");
                 }
-                if(estado.equals("ACTIVADA")){
+                if(estado.equals("ACTIVADA")) {
                     JOptionPane.showMessageDialog(null, "Esta ruta ya se encuentra activada");
-                } else if(estado.equals("DESACTIVADA")){
+                } else if(estado.equals("DESACTIVADA")) {
                     PreparedStatement declaracionValor = cn.prepareStatement(actualizacion);
                     declaracionValor.setInt(1, ruta);
                     declaracionValor.execute();
@@ -129,8 +129,6 @@ public class ActivadorRuta extends javax.swing.JInternalFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "Esta ruta no existe en la base de datos");
                 }
-                        
-                
             } catch (SQLException ex) {
                 Logger.getLogger(ActivadorRuta.class.getName()).log(Level.SEVERE, null, ex);
             }

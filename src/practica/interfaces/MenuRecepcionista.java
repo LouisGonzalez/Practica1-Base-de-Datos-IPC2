@@ -11,9 +11,11 @@ public class MenuRecepcionista extends javax.swing.JInternalFrame {
     
     private final ImageIcon enviado = new ImageIcon("/home/luisitopapurey/Escritorio/Practica 1 IPC2/Practica1 IPC2/src/practica/imagenes/66669042-un-vector-de-dibujos-animados-que-representa-un-conjunto-de-productos-postales-un-paquete-de-cartón-mar.jpg");
     private final ImageIcon entregado = new ImageIcon("/home/luisitopapurey/Escritorio/Practica 1 IPC2/Practica1 IPC2/src/practica/imagenes/34784755-cartero-pidiendo-a-la-firma-a-un-hombre-después-de-la-entrega-de-3-parcelas-a-él-en-plana-del-estilo-de-.jpg");
+    private final String usuario;
     
-    public MenuRecepcionista() {
+    public MenuRecepcionista(String usuario) {
         initComponents();
+        this.usuario = usuario;
         Icon paqEnviado = new ImageIcon(enviado.getImage().getScaledInstance(117, 101, Image.SCALE_DEFAULT));
         Icon paqEntregado = new ImageIcon(entregado.getImage().getScaledInstance(119, 101, Image.SCALE_DEFAULT));
         nuevoPaquete.setIcon(paqEnviado);

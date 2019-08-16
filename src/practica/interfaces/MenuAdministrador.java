@@ -16,10 +16,11 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
     private final ImageIcon eliminar = new ImageIcon("/home/luisitopapurey/Escritorio/Practica 1 IPC2/Practica1 IPC2/src/practica/imagenes/x-30465_960_720.png");
     private final ImageIcon imgUsuario = new ImageIcon("/home/luisitopapurey/Escritorio/Practica 1 IPC2/Practica1 IPC2/src/practica/imagenes/usuario.jpg");
     private final ImageIcon imgCuotas = new ImageIcon("/home/luisitopapurey/Escritorio/Practica 1 IPC2/Practica1 IPC2/src/practica/imagenes/dinero.jpg");
+    private final String usuarios;
     
-    public MenuAdministrador() {
+    public MenuAdministrador(String usuarios) {
         initComponents();
-        
+        this.usuarios = usuarios;
         Icon rutas = new ImageIcon(nuevaRuta.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
         Icon puntosControl = new ImageIcon(punto.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
         Icon paquetes = new ImageIcon(rango.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
@@ -236,8 +237,8 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
                     .addComponent(txt8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
