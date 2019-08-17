@@ -196,7 +196,22 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
         int nVenta = 0;
         int nPaquete = 0;
         int id = 0;
+        int paquetesActuales = 0;
+        int rangoPaquetes = 0;
+        int paqueteAnt = 0;
+        int totalPaquete = 0;
+        int totalPaqueteAnt = 0;
+        int noNit = 0;
+        int costos = 0;
+        int costosPaquete;
+        int paqueteEntregado = 0;
+        int paqueteSistema = 0;
+        int costoPaquete = 0;
+        int paqueteEntregado2;
+        int paqueteSistema2;
+        int costosCliente;
         int nuevoControl = pControl + 1;
+        //Detecta si la casilla de horas no ha sido llenada con un valor
         if(fila == 0){
             if(cajaHoras.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Debes llenar la casilla para continuar");
@@ -208,31 +223,174 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                 Connection cn = login.getConnection();
                 String ultimoPunto = "SELECT * FROM Puntos_control_ruta_? ORDER BY id DESC LIMIT 1";
                 String modPaquete = "UPDATE Paquetes SET no_punto_control = ? WHERE no_venta = ? AND no_paquete_venta = ?";
-                String modPunto = "UPDATE Puntos_control_ruta_? SET paquetes_actuales = ? WHERE id = ?";     
-                try{
+                String selectNit = "SELECT * FROM Paquetes WHERE no_venta = ? AND no_paquete_venta = ?";
+                String cliente = "UPDATE Clientes SET costos_cliente = ? WHERE nit = ?";
+                String modPunto = "UPDATE Puntos_control_ruta_? SET paquetes_actuales = ? WHERE id = ?";  
+                String modPuntoAnt = "UPDATE Puntos_control_ruta_? SET paquetes_actuales = ? WHERE id = ?";
+                String selectPunto = "SELECT * FROM Puntos_control_ruta_? WHERE id = ?";
+                String selectPuntoAnt = "SELECT * FROM Puntos_control_ruta_? WHERE id = ?";
+                String quitarPaquete = "DELETE FROM Paquetes WHERE no_venta = ? AND no_paquete_venta = ?";
+                String paqueteCliente = "SELECT * FROM Clientes WHERE nit = ?";
+                String nuevoDatoCliente = "UPDATE Clientes SET paquetes_entregados = ? WHERE nit = ?";
+                String nuevoDatoCliente2 = "UPDATE Clientes SET paquetes_en_sistema = ? WHERE nit = ?";
+                
+                try {
                     PreparedStatement declaracionId = cn.prepareStatement(ultimoPunto);
                     declaracionId.setInt(1, ruta);
                     ResultSet result = declaracionId.executeQuery();
                         while(result.next()){
                         id = result.getInt("id");
                         if(nuevoControl<=id){
-                            PreparedStatement declaracionPaquete = cn.prepareStatement(modPaquete);
-                            declaracionPaquete.setInt(1, nuevoControl);
-                            declaracionPaquete.setInt(2, nVenta);
-                            declaracionPaquete.setInt(3, nPaquete);
+                            //busca el punto de control donde se encontrara el paquete
+                            PreparedStatement declaracionBusquedaPunto = cn.prepareStatement(selectPunto);
+                            declaracionBusquedaPunto.setInt(1, ruta);
+                            declaracionBusquedaPunto.setInt(2, nuevoControl);
+                            ResultSet result2 = declaracionBusquedaPunto.executeQuery();
+                            //busca el punto de control donde se encuentra el paquete
+                            PreparedStatement declaracionBusquedaAnt = cn.prepareStatement(selectPuntoAnt);
+                            declaracionBusquedaAnt.setInt(1, ruta);
+                            declaracionBusquedaAnt.setInt(2, pControl);
+                            ResultSet result3 = declaracionBusquedaAnt.executeQuery(); 
+                            //busca el nit de la persona que ordeno el paquete
+                            PreparedStatement declaracionNit = cn.prepareStatement(selectNit);
+                            declaracionNit.setInt(1, nVenta);
+                            declaracionNit.setInt(2, nPaquete);
+                            ResultSet result5 = declaracionNit.executeQuery();
+                            //De la tabla clientes busca los datos debidos
+                            PreparedStatement declaracionBusqueda = cn.prepareStatement(paqueteCliente);
+                            declaracionBusqueda.setInt(1, noNit);
+                            ResultSet result6 = declaracionBusqueda.executeQuery();
+                            while(result6.next()){
+                                paqueteEntregado = result6.getInt("paquetes_entregados");
+                                paqueteSistema = result6.getInt("paquetes_en_sistema");
+                                costoPaquete = result6.getInt("costos_cliente");
+                            }
+                            while(result5.next()){
+                                noNit = result5.getInt("nit_persona");
+                                }
+                            //detecta el rango del punto de control donde sera agregado el paquete, ademas de eso tambien detecta la cantidad de paquetes que hay ahi justo en ese momento
+                            while(result2.next()){
+                                paquetesActuales = result2.getInt("paquetes_actuales");
+                                rangoPaquetes = result2.getInt("paquetes_maximos");
+                            }
+                            //detecta la cantidad de paquetes que hay en el punto de control donde se encuentra el paquete justo ahora y tambien la cuota de operacion que posee ese punto de control
+                            while(result3.next()){
+                                paqueteAnt = result3.getInt("paquetes_actuales");
+                                costos = result3.getInt("cuota_operacion");
+                            }
+                            totalPaquete = paquetesActuales + 1;
+                            totalPaqueteAnt = paqueteAnt - 1;
+                            //Revisa si el punto de control al que el paquete quiere ser agregado esta lleno en ese momento
+                            if(totalPaquete>rangoPaquetes){
+                                JOptionPane.showMessageDialog(null, "El punto de control se encuentra lleno, porfavor intenta mas tarde");
+                            } else {
+                                //a la tabla paquetes se le cambia el punto de control donde esta justo ahora
+                                PreparedStatement declaracionPaquete = cn.prepareStatement(modPaquete);
+                                declaracionPaquete.setInt(1, nuevoControl);
+                                declaracionPaquete.setInt(2, nVenta);
+                                declaracionPaquete.setInt(3, nPaquete);
+                                declaracionPaquete.execute();
+                                //agrega el paquete al nuevo punto de control al que se envia
+                                PreparedStatement declaracionModPunto = cn.prepareStatement(modPunto);
+                                declaracionModPunto.setInt(1, ruta);
+                                declaracionModPunto.setInt(2, totalPaquete);
+                                declaracionModPunto.setInt(3, nuevoControl);
+                                declaracionModPunto.execute();
+                                //quita el paquete del punto de control del que acaba de salir
+                                PreparedStatement declaracionModPuntoAnt = cn.prepareStatement(modPuntoAnt);
+                                declaracionModPuntoAnt.setInt(1, ruta);
+                                declaracionModPuntoAnt.setInt(2, totalPaqueteAnt);
+                                declaracionModPuntoAnt.setInt(3, pControl);
+                                declaracionModPuntoAnt.execute();
+                                //agrega el paquete a la tabla de registro_horas para registrar cuanto tiempo estuvo en un punto de control
+                                String registroHoras = "INSERT INTO Registro_horas VALUES ('"+0+"','"+noNit+"','"+ruta+"','"+pControl+"','"+totalHoras+"','"+nVenta+"','"+nPaquete+"')";
+                                PreparedStatement declaracionHoras = cn.prepareStatement(registroHoras);
+                                declaracionHoras.execute();
+                                //agrega a la tabla clientes el costo que le ha costado a la empresa que su paquete este ahi
+                                costosPaquete = totalHoras * costos;
+                                costosCliente = costoPaquete + costosPaquete;
+                                PreparedStatement declaracionCliente = cn.prepareStatement(cliente);
+                                declaracionCliente.setInt(1, costosCliente);
+                                declaracionCliente.setInt(2, noNit);
+                                declaracionCliente.execute();
+                            }
+                        } else {        
+                            //busca el nit de la persona que ordeno el paquete
+                            PreparedStatement declaracionNit = cn.prepareStatement(selectNit);
+                            declaracionNit.setInt(1, nVenta);
+                            declaracionNit.setInt(2, nPaquete);
+                            ResultSet result5 = declaracionNit.executeQuery();
+                            while(result5.next()){
+                                noNit = result5.getInt("nit_persona");
+                            }
+                            //busca el punto de control donde se encuentra el paquete
+                            PreparedStatement declaracionBusquedaAnt = cn.prepareStatement(selectPuntoAnt);
+                            declaracionBusquedaAnt.setInt(1, ruta);
+                            declaracionBusquedaAnt.setInt(2, pControl);
+                            ResultSet result3 = declaracionBusquedaAnt.executeQuery(); 
+                            //detecta la cantidad de paquetes que hay en el punto de control donde se encuentra el paquete justo ahora y tambien la cuota de operacion que posee ese punto de control
+                            while(result3.next()){
+                                paqueteAnt = result3.getInt("paquetes_actuales");
+                                costos = result3.getInt("cuota_operacion");
+                            }
+                            totalPaqueteAnt = paqueteAnt - 1;
+                            //quita el paquete del punto de control del que acaba de salir
+                            PreparedStatement declaracionModPuntoAnt = cn.prepareStatement(modPuntoAnt);
+                            declaracionModPuntoAnt.setInt(1, ruta);
+                            declaracionModPuntoAnt.setInt(2, totalPaqueteAnt);
+                            declaracionModPuntoAnt.setInt(3, pControl);
+                            declaracionModPuntoAnt.execute();
+                            //agrega el paquete a la tabla de registro_horas para registrar cuanto tiempo estuvo en un punto de control                                
+                            String registroHoras = "INSERT INTO Registro_horas VALUES ('"+0+"','"+noNit+"','"+ruta+"','"+pControl+"','"+totalHoras+"','"+nVenta+"','"+nPaquete+"')";
+                            PreparedStatement declaracionHoras = cn.prepareStatement(registroHoras);
+                            declaracionHoras.execute();
+                            //agrega el paquete a la bodega final donde ya solo espera que el usuario final vaya por el    
+                            String bodegaFinal = "INSERT INTO Bodegas_finales VALUES ('"+0+"','"+noNit+"','"+ruta+"','"+nVenta+"','"+nPaquete+"')";                                
+                            PreparedStatement declaracionFinal = cn.prepareStatement(bodegaFinal);
+                            declaracionFinal.execute();
+                            //De la tabla clientes busca los datos debidos
+                            PreparedStatement declaracionBusqueda = cn.prepareStatement(paqueteCliente);
+                            declaracionBusqueda.setInt(1, noNit);
+                            ResultSet result6 = declaracionBusqueda.executeQuery();
+                            while(result6.next()){
+                                paqueteEntregado = result6.getInt("paquetes_entregados");
+                                paqueteSistema = result6.getInt("paquetes_en_sistema");
+                                costoPaquete = result6.getInt("costos_cliente");
+                            }
+                            //quita el paquete de la tabla paquetes debido a que ya esta en su destino
+                            PreparedStatement declaracionPaquete = cn.prepareStatement(quitarPaquete);
+                            declaracionPaquete.setInt(1, nVenta);
+                            declaracionPaquete.setInt(2, nPaquete);
                             declaracionPaquete.execute();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "ya te pasaste maquina");
-                        }
-                    }
-                
-                
+                            //agrega a la tabla clientes el costo que le ha costado a la empresa que su paquete este ahi
+                            costosPaquete = totalHoras * costos;
+                            costosCliente = costoPaquete + costosPaquete;
+                            PreparedStatement declaracionCliente = cn.prepareStatement(cliente);
+                            declaracionCliente.setInt(1, costosCliente);
+                            declaracionCliente.setInt(2, noNit);
+                            declaracionCliente.execute();
+                            
+                            paqueteEntregado2 = paqueteEntregado + 1;
+                            paqueteSistema2 = paqueteSistema - 1;
+                            //Quita el paquete de la columna paquetes_en_sistema de la tabla clientes
+                            PreparedStatement declaracionSistema = cn.prepareStatement(nuevoDatoCliente2);
+                            declaracionSistema.setInt(1, paqueteSistema2);
+                            declaracionSistema.setInt(2, noNit);
+                            declaracionSistema.execute();
+                            //Agrega el paquete a la columna paquetes_entregados de la tabla clientes
+                            PreparedStatement declaracionEntregado = cn.prepareStatement(nuevoDatoCliente);
+                            declaracionEntregado.setInt(1, paqueteEntregado2);
+                            declaracionEntregado.setInt(2, noNit);
+                            declaracionEntregado.execute();
+                        }   
+                    }    
                 } catch (SQLException ex) {
                     Logger.getLogger(PaquetesOperador.class.getName()).log(Level.SEVERE, null, ex);
+                } finally {
+                    login.Desconectar();
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, ":v");
         }
     }//GEN-LAST:event_tablaPaquetesMouseClicked
 
