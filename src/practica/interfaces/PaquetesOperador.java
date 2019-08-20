@@ -201,6 +201,8 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
         int paqueteAnt = 0;
         int totalPaquete = 0;
         int totalPaqueteAnt = 0;
+        int horasSistema = 0;
+        int nuevaHora = 0;
         int noNit = 0;
         int costos = 0;
         int costosPaquete;
@@ -233,7 +235,9 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                 String paqueteCliente = "SELECT * FROM Clientes WHERE nit = ?";
                 String nuevoDatoCliente = "UPDATE Clientes SET paquetes_entregados = ? WHERE nit = ?";
                 String nuevoDatoCliente2 = "UPDATE Clientes SET paquetes_en_sistema = ? WHERE nit = ?";
-                
+                String buscarRegistro = "SELECT * FROM Registro_horas WHERE no_venta = ? AND no_paquete_venta = ?";
+                String registroHoras = "UPDATE Registro_horas SET ttotal_horas = ? WHERE no_venta = ? AND no_paquete_venta = ?";
+                                
                 try {
                     PreparedStatement declaracionId = cn.prepareStatement(ultimoPunto);
                     declaracionId.setInt(1, ruta);
@@ -303,8 +307,19 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                                 declaracionModPuntoAnt.setInt(3, pControl);
                                 declaracionModPuntoAnt.execute();
                                 //agrega el paquete a la tabla de registro_horas para registrar cuanto tiempo estuvo en un punto de control
-                                String registroHoras = "INSERT INTO Registro_horas VALUES ('"+0+"','"+noNit+"','"+ruta+"','"+pControl+"','"+totalHoras+"','"+nVenta+"','"+nPaquete+"')";
+                                PreparedStatement declaracionBusqRegistro = cn.prepareStatement(buscarRegistro);
+                                declaracionBusqRegistro.setInt(1, nVenta);
+                                declaracionBusqRegistro.setInt(2, nPaquete);
+                                ResultSet result4 = declaracionBusqRegistro.executeQuery();
+                                while(result4.next()){
+                                    horasSistema = result4.getInt("ttotal_horas");
+                                }
+                                nuevaHora = horasSistema + totalHoras;
+                                //Actualiza el total de horas en el sistema
                                 PreparedStatement declaracionHoras = cn.prepareStatement(registroHoras);
+                                declaracionHoras.setInt(1, nuevaHora);
+                                declaracionHoras.setInt(2, nVenta);
+                                declaracionHoras.setInt(3, nPaquete);
                                 declaracionHoras.execute();
                                 //agrega a la tabla clientes el costo que le ha costado a la empresa que su paquete este ahi
                                 costosPaquete = totalHoras * costos;
@@ -340,9 +355,20 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                             declaracionModPuntoAnt.setInt(2, totalPaqueteAnt);
                             declaracionModPuntoAnt.setInt(3, pControl);
                             declaracionModPuntoAnt.execute();
-                            //agrega el paquete a la tabla de registro_horas para registrar cuanto tiempo estuvo en un punto de control                                
-                            String registroHoras = "INSERT INTO Registro_horas VALUES ('"+0+"','"+noNit+"','"+ruta+"','"+pControl+"','"+totalHoras+"','"+nVenta+"','"+nPaquete+"')";
+                            //agrega el paquete a la tabla de registro_horas para registrar cuanto tiempo estuvo en un punto de control
+                            PreparedStatement declaracionBusqRegistro = cn.prepareStatement(buscarRegistro);
+                            declaracionBusqRegistro.setInt(1, nVenta);
+                            declaracionBusqRegistro.setInt(2, nPaquete);
+                            ResultSet result4 = declaracionBusqRegistro.executeQuery();
+                            while(result4.next()){
+                                horasSistema = result4.getInt("ttotal_horas");
+                            }
+                            nuevaHora = horasSistema + totalHoras;
+                            //Actualiza el total de horas en el sistema
                             PreparedStatement declaracionHoras = cn.prepareStatement(registroHoras);
+                            declaracionHoras.setInt(1, nuevaHora);
+                            declaracionHoras.setInt(2, nVenta);
+                            declaracionHoras.setInt(3, nPaquete);
                             declaracionHoras.execute();
                             //agrega el paquete a la bodega final donde ya solo espera que el usuario final vaya por el    
                             String bodegaFinal = "INSERT INTO Bodegas_finales VALUES ('"+0+"','"+noNit+"','"+ruta+"','"+nVenta+"','"+nPaquete+"')";                                
@@ -372,11 +398,20 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                             
                             paqueteEntregado2 = paqueteEntregado + 1;
                             paqueteSistema2 = paqueteSistema - 1;
+                            
+
                             //Quita el paquete de la columna paquetes_en_sistema de la tabla clientes
-                            PreparedStatement declaracionSistema = cn.prepareStatement(nuevoDatoCliente2);
+                            /*PreparedStatement declaracionSistema = cn.prepareStatement(nuevoDatoCliente2);
                             declaracionSistema.setInt(1, paqueteSistema2);
                             declaracionSistema.setInt(2, noNit);
-                            declaracionSistema.execute();
+                            declaracionSistema.execute();*/
+                            //REVISAR ESTA PARTE QUE HAY QUE VER PORQUE EN LA TABLA DE ENTREGA DE PAQUETES REPITES EL QUITAR EL PAQUETE DEL SISTEMA ENTONCES TECNICAMENTE SE QUITA DOS VECES 
+                            
+                            
+                            
+                            
+                           
+                            
                             //Agrega el paquete a la columna paquetes_entregados de la tabla clientes
                             PreparedStatement declaracionEntregado = cn.prepareStatement(nuevoDatoCliente);
                             declaracionEntregado.setInt(1, paqueteEntregado2);

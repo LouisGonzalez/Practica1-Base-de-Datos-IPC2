@@ -163,7 +163,7 @@ public class NuevaRuta extends javax.swing.JInternalFrame {
                     valor = result3.getInt("total");
                 }
                 if(captura.equals("Operador")){
-                    estado.executeUpdate("INSERT INTO Rutas VALUES('"+0+"','"+1+"','"+destinos+"','"+estadoRuta+"')");
+                    estado.executeUpdate("INSERT INTO Rutas VALUES('"+0+"','"+1+"','"+destinos+"','"+estadoRuta+"','"+0+"','"+0+"')");
                     ResultSet res = estado.executeQuery(rs);
                     while(res.next()){
                         captura2 = res.getString("id"); 

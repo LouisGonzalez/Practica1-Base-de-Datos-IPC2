@@ -34,6 +34,7 @@ public class MenuRecepcionista extends javax.swing.JInternalFrame {
         paqueteEntregado = new javax.swing.JLabel();
         txt3 = new javax.swing.JLabel();
         txt4 = new javax.swing.JLabel();
+        txt5 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -91,6 +92,13 @@ public class MenuRecepcionista extends javax.swing.JInternalFrame {
         txt4.setForeground(new java.awt.Color(0, 0, 102));
         txt4.setText("Retiro Paquetes");
 
+        txt5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txt5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt5MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
@@ -99,6 +107,7 @@ public class MenuRecepcionista extends javax.swing.JInternalFrame {
             .addGroup(panelFondoLayout.createSequentialGroup()
                 .addGap(71, 71, 71)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txt5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txt3, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
                     .addComponent(nuevoPaquete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(38, 38, 38)
@@ -118,7 +127,9 @@ public class MenuRecepcionista extends javax.swing.JInternalFrame {
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt3)
                     .addComponent(txt4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 199, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(txt5, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -139,6 +150,12 @@ public class MenuRecepcionista extends javax.swing.JInternalFrame {
         paqueteEgreso.show();
     }//GEN-LAST:event_paqueteEntregadoMouseClicked
 
+    private void txt5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt5MouseClicked
+        LocalizacionPaquetes locPaquete = new LocalizacionPaquetes();
+        MenuPrincipal.panelPadre.add(locPaquete);
+        locPaquete.show();
+    }//GEN-LAST:event_txt5MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel nuevoPaquete;
@@ -149,5 +166,6 @@ public class MenuRecepcionista extends javax.swing.JInternalFrame {
     private javax.swing.JLabel txt2;
     private javax.swing.JLabel txt3;
     private javax.swing.JLabel txt4;
+    private javax.swing.JLabel txt5;
     // End of variables declaration//GEN-END:variables
 }
