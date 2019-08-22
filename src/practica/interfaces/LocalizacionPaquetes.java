@@ -103,11 +103,11 @@ public class LocalizacionPaquetes extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "id:", "Nit:", "No. Punto Control:", "No. Ruta:", "No. Venta:", "No. Paquete:"
+                "id:", "Nit:", "No. Punto Control:", "No. Ruta:", "No. Venta:", "No. Paquete:", "Horas en ruta:"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -208,18 +208,25 @@ public class LocalizacionPaquetes extends javax.swing.JInternalFrame {
             noVenta = Integer.parseInt(cajaVenta.getText());
             dtmModel = (DefaultTableModel) tablaPaquetes.getModel();
             String sql = "SELECT * FROM Paquetes WHERE nit_persona = ? AND no_venta = ?";
+            String registroHoras = "SELECT * FROM Registro_horas WHERE nit_persona = ? AND no_venta = ?";
             try{
                 PreparedStatement declaracionBusqueda = cn.prepareStatement(sql);
                 declaracionBusqueda.setInt(1, noNit);
                 declaracionBusqueda.setInt(2, noVenta);
                 ResultSet result = declaracionBusqueda.executeQuery();
-                while(result.next()){
-                    Object dato[] = new Object[6];
+                PreparedStatement declaracionHoras = cn.prepareStatement(registroHoras);
+                declaracionHoras.setInt(1, noNit);
+                declaracionHoras.setInt(2, noVenta);
+                ResultSet result2 = declaracionHoras.executeQuery();
+                while(result.next() && result2.next()){
+                    Object dato[] = new Object[7];
                     for(int i=0; i<6; i++){
                         dato[i] = result.getInt(i+1);
                     }
+                    dato[6] = result2.getInt(4);
                     dtmModel.addRow(dato);
                 }
+                
             } catch (SQLException ex) {
                 Logger.getLogger(LocalizacionPaquetes.class.getName()).log(Level.SEVERE, null, ex);
             } finally {

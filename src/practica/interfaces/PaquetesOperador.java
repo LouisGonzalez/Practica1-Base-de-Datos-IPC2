@@ -209,8 +209,6 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
         int paqueteEntregado = 0;
         int paqueteSistema = 0;
         int costoPaquete = 0;
-        int paqueteEntregado2;
-        int paqueteSistema2;
         int costosCliente;
         int nuevoControl = pControl + 1;
         //Detecta si la casilla de horas no ha sido llenada con un valor
@@ -233,12 +231,10 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                 String selectPuntoAnt = "SELECT * FROM Puntos_control_ruta_? WHERE id = ?";
                 String quitarPaquete = "DELETE FROM Paquetes WHERE no_venta = ? AND no_paquete_venta = ?";
                 String paqueteCliente = "SELECT * FROM Clientes WHERE nit = ?";
-                String nuevoDatoCliente = "UPDATE Clientes SET paquetes_entregados = ? WHERE nit = ?";
-                String nuevoDatoCliente2 = "UPDATE Clientes SET paquetes_en_sistema = ? WHERE nit = ?";
                 String buscarRegistro = "SELECT * FROM Registro_horas WHERE no_venta = ? AND no_paquete_venta = ?";
-                String registroHoras = "UPDATE Registro_horas SET ttotal_horas = ? WHERE no_venta = ? AND no_paquete_venta = ?";
-                                
+                String registroHoras = "UPDATE Registro_horas SET ttotal_horas = ? WHERE no_venta = ? AND no_paquete_venta = ?";                                    
                 try {
+                    dtmModel.removeRow(fila);
                     PreparedStatement declaracionId = cn.prepareStatement(ultimoPunto);
                     declaracionId.setInt(1, ruta);
                     ResultSet result = declaracionId.executeQuery();
@@ -394,29 +390,7 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                             PreparedStatement declaracionCliente = cn.prepareStatement(cliente);
                             declaracionCliente.setInt(1, costosCliente);
                             declaracionCliente.setInt(2, noNit);
-                            declaracionCliente.execute();
-                            
-                            paqueteEntregado2 = paqueteEntregado + 1;
-                            paqueteSistema2 = paqueteSistema - 1;
-                            
-
-                            //Quita el paquete de la columna paquetes_en_sistema de la tabla clientes
-                            /*PreparedStatement declaracionSistema = cn.prepareStatement(nuevoDatoCliente2);
-                            declaracionSistema.setInt(1, paqueteSistema2);
-                            declaracionSistema.setInt(2, noNit);
-                            declaracionSistema.execute();*/
-                            //REVISAR ESTA PARTE QUE HAY QUE VER PORQUE EN LA TABLA DE ENTREGA DE PAQUETES REPITES EL QUITAR EL PAQUETE DEL SISTEMA ENTONCES TECNICAMENTE SE QUITA DOS VECES 
-                            
-                            
-                            
-                            
-                           
-                            
-                            //Agrega el paquete a la columna paquetes_entregados de la tabla clientes
-                            PreparedStatement declaracionEntregado = cn.prepareStatement(nuevoDatoCliente);
-                            declaracionEntregado.setInt(1, paqueteEntregado2);
-                            declaracionEntregado.setInt(2, noNit);
-                            declaracionEntregado.execute();
+                            declaracionCliente.execute();  
                         }   
                     }    
                 } catch (SQLException ex) {
@@ -426,6 +400,7 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                 }
             }
         } else {
+            JOptionPane.showMessageDialog(null, "Por orden de entrada el primer lugar en la tabla es el que debe salir");
         }
     }//GEN-LAST:event_tablaPaquetesMouseClicked
 

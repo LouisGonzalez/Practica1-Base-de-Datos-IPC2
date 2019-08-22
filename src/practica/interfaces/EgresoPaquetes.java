@@ -147,20 +147,23 @@ public class EgresoPaquetes extends javax.swing.JInternalFrame {
         int paquetesEntregadosRuta = 0;
         int paquetesSistemaRuta = 0;
         int paquetesSistemaCliente = 0;
+        int paqueteEntregadoCliente = 0;
         int nuevoPaqEntregadoRuta = 0;
         int nuevoPaqSistemaRuta = 0;
         int nuevoPaqCliente = 0;
+        int nuevoPaqCliente2 = 0;
         login = new ConectorSesion();
         Connection cn = login.getConnection();
         String entregado = "DELETE FROM Bodegas_finales WHERE no_venta = ? AND no_paquete_venta = ?";
+        String borrarRegistro = "DELETE FROM Registro_horas WHERE no_venta = ? no_paquete_venta = ?";
         String quitarPaqueteRuta = "UPDATE Rutas SET paquetes_en_sistema = ? WHERE id = ?";
         String paqueteEntRuta = "UPDATE Rutas SET paquetes_entregados = ? WHERE id = ?";
         String quitarPaqueteCliente = "UPDATE Clientes SET paquetes_en_sistema = ? WHERE nit = ?";
+        String paqEntregadoCliente = "UPDATE Clientes SET paquetes_entregados = ? WHERE nit = ?";
         String busquedaRuta = "SELECT * FROM Rutas WHERE id = ?";
         String busquedaClientes = "SELECT * FROM Clientes WHERE nit = ?";
         try {
-            dtmModel.removeRow(fila);
-            
+            dtmModel.removeRow(fila);            
             //busca los valores de la ruta para poder modificarlos
             PreparedStatement declaracionBusquedaRuta = cn.prepareStatement(busquedaRuta);
             declaracionBusquedaRuta.setInt(1, nRuta);
@@ -177,13 +180,21 @@ public class EgresoPaquetes extends javax.swing.JInternalFrame {
             ResultSet result2 = declaracionBusquedaCliente.executeQuery();
             while(result2.next()){
                 paquetesSistemaCliente = result2.getInt("paquetes_en_sistema");
+                paqueteEntregadoCliente = result2.getInt("paquetes_entregados");
+                
             }
             nuevoPaqCliente = paquetesSistemaCliente - 1;
+            nuevoPaqCliente2 = paqueteEntregadoCliente + 1;
             //modifica el valor de los paquetes en sistema en la tabla clientes
             PreparedStatement declaracionPaqCliente = cn.prepareStatement(quitarPaqueteCliente);
             declaracionPaqCliente.setInt(1, nuevoPaqCliente);
             declaracionPaqCliente.setInt(2, nNit);
             declaracionPaqCliente.execute();
+            //modifica el valor de los paquetes entregados en la tabla clientes
+            PreparedStatement decEntregadoCliente = cn.prepareStatement(paqEntregadoCliente);
+            decEntregadoCliente.setInt(1, nuevoPaqCliente2);
+            decEntregadoCliente.setInt(2, nNit);
+            decEntregadoCliente.execute();
             //modifica el valor de los paquetes entregados en la tabla rutas 
             PreparedStatement declaracionPaqEntregado = cn.prepareStatement(paqueteEntRuta);
             declaracionPaqEntregado.setInt(1, nuevoPaqEntregadoRuta);
@@ -194,11 +205,16 @@ public class EgresoPaquetes extends javax.swing.JInternalFrame {
             declaracionPaqSistema.setInt(1, nuevoPaqSistemaRuta);
             declaracionPaqSistema.setInt(2, nRuta);
             declaracionPaqSistema.execute();
-            //
+            // quita el paquete de la bodega final
             PreparedStatement declaracionEntregado = cn.prepareStatement(entregado);
             declaracionEntregado.setInt(1, nVenta);
             declaracionEntregado.setInt(2, nPaquete);
             declaracionEntregado.execute();
+            //quita el paquete del registro de horas
+            PreparedStatement declaracionHoras = cn.prepareStatement(borrarRegistro);
+            declaracionHoras.setInt(1, nVenta);
+            declaracionHoras.setInt(2, nPaquete);
+            declaracionHoras.execute();
             JOptionPane.showMessageDialog(null, "El paquete ha sido entregado con exito");
         } catch (SQLException ex) {
             Logger.getLogger(EgresoPaquetes.class.getName()).log(Level.SEVERE, null, ex);

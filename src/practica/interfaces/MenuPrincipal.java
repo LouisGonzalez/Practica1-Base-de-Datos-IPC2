@@ -1,5 +1,4 @@
 package practica.interfaces;
-
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -97,7 +96,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                     .addGroup(panelPadreLayout.createSequentialGroup()
                         .addGap(9, 9, 9)
                         .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(251, Short.MAX_VALUE))
+                .addContainerGap(386, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPadreLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(txt3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -137,7 +136,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void acceder() throws SQLException{
+    private void acceder() throws SQLException{        
         login = new ConectorSesion();       
         Connection cn = login.getConnection();       
         String captura = "";

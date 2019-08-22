@@ -17,7 +17,9 @@ public class Factura extends javax.swing.JInternalFrame {
     private final DefaultTableModel dtmModel;
     private final String[] capturas = new String[5];
     private int noPaquetes, nit, totalPaquetes, pagoTotal, totalFinal;
-    private String destinoPaquete, pagoPrioridad, valores;
+    private String destinoPaquete, pagoPrioridad;
+    private String[] valores;
+    private int[] conversion;
     
     public Factura(int nit) throws SQLException {
         initComponents();
@@ -328,6 +330,8 @@ public class Factura extends javax.swing.JInternalFrame {
     private void calculoTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculoTotalActionPerformed
         int filas = dtmModel.getRowCount();
         login = new ConectorSesion();
+        valores = new String[filas+1];
+        conversion = new int[filas+1];
         Connection cn = login.getConnection();
         pagoPrioridad = selecPrioridad.getSelectedItem().toString();            
         int valorLibra = 0;
@@ -352,12 +356,11 @@ public class Factura extends javax.swing.JInternalFrame {
             while(result3.next()){
                 valorVip = result3.getInt("total");
             }
-            int conversion;
             int totales = 0;
             for(int i=0; i<filas; i++){
-                valores = (String) dtmModel.getValueAt(i, 1);
-                conversion = Integer.parseInt(valores)*valorLibra;
-                totales = totales + conversion;                
+                valores[i] = (String) dtmModel.getValueAt(i, 1);
+                conversion[i] = Integer.parseInt(valores[i])*valorLibra;
+                totales = totales + conversion[i];                
             }
             if(pagoPrioridad.equals("NO")){
                 totalFinal = totales + valorCDestino;
@@ -383,7 +386,30 @@ public class Factura extends javax.swing.JInternalFrame {
         if(total.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Debes calcular antes el total a pagar para continuar");
         } else {
-            login = new ConectorSesion();
+            System.out.println(conversion[0]);
+            System.out.println(conversion[1]);
+            
+            
+            
+            
+            
+            
+            
+            
+            //toca corregir la parte de los ingresos de las rutas
+            //ya con esto de arriba solo tienes que agregar una tabla en bodega de costos por paquete, ya con eso lo agregas a la ruta y por ende se vera en el reporte
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            /*login = new ConectorSesion();
             Connection cn = login.getConnection();
             destinoPaquete = destino.getSelectedItem().toString();
             totalPaquetes = Integer.parseInt(cajaPaquetes.getText());
@@ -434,7 +460,7 @@ public class Factura extends javax.swing.JInternalFrame {
                 Logger.getLogger(Factura.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 login.Desconectar();
-            }
+            }*/
         }
     }//GEN-LAST:event_generarPagoActionPerformed
 
