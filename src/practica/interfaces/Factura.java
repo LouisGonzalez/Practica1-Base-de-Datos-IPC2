@@ -20,7 +20,9 @@ public class Factura extends javax.swing.JInternalFrame {
     private String destinoPaquete, pagoPrioridad;
     private String[] valores;
     private int[] conversion;
-    
+    private int valorCDestino = 0;
+    private int valorVip = 0;
+        
     public Factura(int nit) throws SQLException {
         initComponents();
         this.nit = nit;
@@ -335,8 +337,6 @@ public class Factura extends javax.swing.JInternalFrame {
         Connection cn = login.getConnection();
         pagoPrioridad = selecPrioridad.getSelectedItem().toString();            
         int valorLibra = 0;
-        int valorCDestino = 0;
-        int valorVip = 0;
         String precioLibra = "SELECT * FROM Cuotas WHERE id = 4";
         String cuotaDestino = "SELECT * FROM Cuotas WHERE id = 2";
         String cuotaVip = "SELECT * FROM Cuotas WHERE id = 3";
@@ -363,9 +363,9 @@ public class Factura extends javax.swing.JInternalFrame {
                 totales = totales + conversion[i];                
             }
             if(pagoPrioridad.equals("NO")){
-                totalFinal = totales + valorCDestino;
+                totalFinal = totales + (filas * valorCDestino);
             } else if(pagoPrioridad.equals("SI")){
-                totalFinal = totales + valorCDestino + valorVip;
+                totalFinal = totales + (filas * valorCDestino) + (filas * valorVip) ;
             }
             total.setText(Integer.toString(totalFinal));
         } catch (SQLException ex) {
@@ -386,45 +386,24 @@ public class Factura extends javax.swing.JInternalFrame {
         if(total.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Debes calcular antes el total a pagar para continuar");
         } else {
-            System.out.println(conversion[0]);
-            System.out.println(conversion[1]);
-            
-            
-            
-            
-            
-            
-            
-            
-            //toca corregir la parte de los ingresos de las rutas
-            //ya con esto de arriba solo tienes que agregar una tabla en bodega de costos por paquete, ya con eso lo agregas a la ruta y por ende se vera en el reporte
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            /*login = new ConectorSesion();
+            login = new ConectorSesion();
             Connection cn = login.getConnection();
             destinoPaquete = destino.getSelectedItem().toString();
             totalPaquetes = Integer.parseInt(cajaPaquetes.getText());
             pagoTotal = Integer.parseInt(total.getText());
             int paqueteSistema = 0;
             int ingresoCliente = 0;
+            int costosCliente = 0;
             int nuevoValor = 0;
             int nuevoValor2 = 0;
             int codigoVenta = 0;
+            int ganancias;
             String nuevaVenta = "INSERT INTO Ventas VALUES ('"+0+"','"+nit+"','"+totalPaquetes+"','"+pagoTotal+"')";                            
             String cliente = "SELECT * FROM Clientes WHERE nit = ?";
             String dato = "UPDATE Clientes SET paquetes_en_sistema = ? WHERE nit = ?";
             String dato2 = "UPDATE Clientes SET ingresos_cliente = ? WHERE nit = ?";
             String idVenta = "SELECT * FROM Ventas ORDER BY id DESC LIMIT 1";
-                
+            String ganancia = "UPDATE Clientes SET ganancias_cliente = ? WHERE nit = ?";    
             try{
                 PreparedStatement declaracionCliente = cn.prepareStatement(cliente);
                 declaracionCliente.setInt(1, nit);
@@ -432,17 +411,27 @@ public class Factura extends javax.swing.JInternalFrame {
                 while(result.next()){
                     paqueteSistema = result.getInt("paquetes_en_sistema");
                     ingresoCliente = result.getInt("ingresos_cliente");
+                    costosCliente = result.getInt("costos_cliente");
                 }
                 nuevoValor = ingresoCliente + pagoTotal;
                 nuevoValor2 = paqueteSistema + totalPaquetes;
+                ganancias = nuevoValor - costosCliente;
+                //actualiza el valor de ganancias netas en la tabla clientes                
+                PreparedStatement declaracionGanancias = cn.prepareStatement(ganancia);
+                declaracionGanancias.setInt(1, ganancias);
+                declaracionGanancias.setInt(2, nit);
+                declaracionGanancias.execute();
+                //actualiza el valor de los paquetes en sistema actualmente
                 PreparedStatement declaracionValor = cn.prepareStatement(dato);
                 declaracionValor.setInt(1, nuevoValor2);
                 declaracionValor.setInt(2, nit);
                 declaracionValor.execute();
+                // actualiza el valor de los ingresos por cliente
                 PreparedStatement declaracionValor2 = cn.prepareStatement(dato2);
                 declaracionValor2.setInt(1, nuevoValor);
                 declaracionValor2.setInt(2, nit);
                 declaracionValor2.execute();
+                //la venta realizada se agrega a la tabla facturas
                 PreparedStatement declaracionVenta = cn.prepareStatement(nuevaVenta);
                 declaracionVenta.execute();
                 PreparedStatement declaracionIdVenta = cn.prepareStatement(idVenta);
@@ -450,17 +439,27 @@ public class Factura extends javax.swing.JInternalFrame {
                 while(result10.next()){
                     codigoVenta = result10.getInt("id");
                 }
-                for(int i = 1; i <= totalPaquetes; i++) {
-                    String sql = "INSERT INTO Bodega VALUES ('"+0+"','"+nit+"','"+pagoPrioridad+"','"+destinoPaquete+"','"+codigoVenta+"','"+i+"')";
-                    PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
-                    declaracionPreparada.execute();                    
+                for(int i = 0; i < totalPaquetes; i++) {
+                    int precioPaquete = 0; 
+                    int sumatoria = i + 1;
+                    if(pagoPrioridad.equals("SI")){     
+                        precioPaquete = conversion[i] + valorCDestino + valorVip;
+                         String sql = "INSERT INTO Bodega VALUES ('"+0+"','"+nit+"','"+pagoPrioridad+"','"+destinoPaquete+"','"+codigoVenta+"','"+sumatoria+"','"+precioPaquete+"')";                                          
+                        PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
+                        declaracionPreparada.execute();     
+                    } else {
+                        precioPaquete = conversion[i] + valorCDestino;
+                         String sql = "INSERT INTO Bodega VALUES ('"+0+"','"+nit+"','"+pagoPrioridad+"','"+destinoPaquete+"','"+codigoVenta+"','"+sumatoria +"','"+precioPaquete+"')";                                          
+                        PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
+                        declaracionPreparada.execute();    
+                    }   
                 }
                     JOptionPane.showMessageDialog(null, "Transaccion exitosa");
             } catch (SQLException ex) {
                 Logger.getLogger(Factura.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 login.Desconectar();
-            }*/
+            }
         }
     }//GEN-LAST:event_generarPagoActionPerformed
 

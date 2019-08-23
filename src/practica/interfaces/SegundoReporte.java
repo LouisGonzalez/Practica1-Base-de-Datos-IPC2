@@ -1,10 +1,12 @@
 package practica.interfaces;
 
+import java.io.*;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import practica.clases.ConectorSesion;
+import practica.html.HtmlClientes;
 
 /**
  *
@@ -14,6 +16,7 @@ public class SegundoReporte extends javax.swing.JInternalFrame {
 
     private DefaultTableModel dtmModel;
     private ConectorSesion login;
+    HtmlClientes html; 
     
     public SegundoReporte() {
         initComponents();
@@ -46,6 +49,31 @@ public class SegundoReporte extends javax.swing.JInternalFrame {
         }
     }
     
+    private void generarHtml(){
+        File cliente = new File("Clientes.html");
+        html = new HtmlClientes();
+        try{
+            FileWriter redactor = new FileWriter(cliente);
+            BufferedWriter buffer = new BufferedWriter(redactor);
+            html.generarEncabezado();
+            html.titulos();
+            buffer.write(html.salida);
+            buffer.newLine();
+            for(int i = 0; i<tablaClientes.getRowCount(); i++){
+                html.generarTabla(Integer.parseInt(tablaClientes.getValueAt(i, 0).toString()), Integer.parseInt(tablaClientes.getValueAt(i, 1).toString()), Integer.parseInt(tablaClientes.getValueAt(i, 2).toString()), Integer.parseInt(tablaClientes.getValueAt(i, 3).toString()), Integer.parseInt(tablaClientes.getValueAt(i, 4).toString()), Integer.parseInt(tablaClientes.getValueAt(i, 5).toString()), Integer.parseInt(tablaClientes.getValueAt(i, 6).toString()));
+                buffer.write(html.fila);        
+                buffer.newLine();
+            }
+            html.parteFinal();
+            buffer.write(html.ultimo);
+            buffer.newLine();
+            buffer.close();
+            redactor.close();
+        } catch (IOException ex) {
+            Logger.getLogger(SegundoReporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -55,6 +83,7 @@ public class SegundoReporte extends javax.swing.JInternalFrame {
         txt1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaClientes = new javax.swing.JTable();
+        exportador = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -104,14 +133,25 @@ public class SegundoReporte extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tablaClientes);
 
+        exportador.setText("Exportar a html");
+        exportador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportadorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(panelFondoLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(panelFondoLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(exportador, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelFondoLayout.createSequentialGroup()
+                    .addGap(24, 24, 24)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,6 +159,8 @@ public class SegundoReporte extends javax.swing.JInternalFrame {
                 .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(exportador)
                 .addContainerGap())
         );
 
@@ -136,8 +178,13 @@ public class SegundoReporte extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void exportadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportadorActionPerformed
+        generarHtml();
+    }//GEN-LAST:event_exportadorActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton exportador;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panel2;
     private javax.swing.JPanel panelFondo;

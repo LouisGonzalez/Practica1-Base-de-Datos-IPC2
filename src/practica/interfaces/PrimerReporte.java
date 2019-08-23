@@ -45,6 +45,10 @@ public class PrimerReporte extends javax.swing.JInternalFrame {
         }
     }
     
+    private void generarReporte(){
+        
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -54,6 +58,7 @@ public class PrimerReporte extends javax.swing.JInternalFrame {
         tablaRutas = new javax.swing.JTable();
         panel2 = new javax.swing.JPanel();
         txt1 = new javax.swing.JLabel();
+        exportador = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -103,6 +108,8 @@ public class PrimerReporte extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
+        exportador.setText("Exportar a HTML");
+
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
@@ -110,7 +117,11 @@ public class PrimerReporte extends javax.swing.JInternalFrame {
             .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panelFondoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
+                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(exportador, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         panelFondoLayout.setVerticalGroup(
@@ -119,6 +130,8 @@ public class PrimerReporte extends javax.swing.JInternalFrame {
                 .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(exportador)
                 .addContainerGap())
         );
 
@@ -138,6 +151,7 @@ public class PrimerReporte extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton exportador;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panel2;
     private javax.swing.JPanel panelFondo;

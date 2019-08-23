@@ -209,6 +209,8 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
         int paqueteEntregado = 0;
         int paqueteSistema = 0;
         int costoPaquete = 0;
+        int gananciasCliente = 0;
+        int ingresosCliente = 0;
         int costosCliente;
         int nuevoControl = pControl + 1;
         //Detecta si la casilla de horas no ha sido llenada con un valor
@@ -225,6 +227,7 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                 String modPaquete = "UPDATE Paquetes SET no_punto_control = ? WHERE no_venta = ? AND no_paquete_venta = ?";
                 String selectNit = "SELECT * FROM Paquetes WHERE no_venta = ? AND no_paquete_venta = ?";
                 String cliente = "UPDATE Clientes SET costos_cliente = ? WHERE nit = ?";
+                
                 String modPunto = "UPDATE Puntos_control_ruta_? SET paquetes_actuales = ? WHERE id = ?";  
                 String modPuntoAnt = "UPDATE Puntos_control_ruta_? SET paquetes_actuales = ? WHERE id = ?";
                 String selectPunto = "SELECT * FROM Puntos_control_ruta_? WHERE id = ?";
@@ -317,13 +320,21 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                                 declaracionHoras.setInt(2, nVenta);
                                 declaracionHoras.setInt(3, nPaquete);
                                 declaracionHoras.execute();
-                                //agrega a la tabla clientes el costo que le ha costado a la empresa que su paquete este ahi
+                                //agrega a la tabla clientes el costo que ha tenido que la empresa que su paquete este ahi
                                 costosPaquete = totalHoras * costos;
                                 costosCliente = costoPaquete + costosPaquete;
+                                gananciasCliente = ingresosCliente - costosCliente;
+                                //agrega el total de ganancias a la tabla clientes
+                                gananciasClientes(cn, gananciasCliente, noNit);
+                                //agrega a la tabla clientes el costo que le ha costado a la empresa que su paquete este ahi
                                 PreparedStatement declaracionCliente = cn.prepareStatement(cliente);
                                 declaracionCliente.setInt(1, costosCliente);
                                 declaracionCliente.setInt(2, noNit);
                                 declaracionCliente.execute();
+                                //agrega a la tabla Rutas el costo que ha tenido que la empresa tenga su paquete ahi
+                                costosRuta(cn, costosPaquete);
+                                
+                                
                             }
                         } else {        
                             //busca el nit de la persona que ordeno el paquete
@@ -378,19 +389,28 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                                 paqueteEntregado = result6.getInt("paquetes_entregados");
                                 paqueteSistema = result6.getInt("paquetes_en_sistema");
                                 costoPaquete = result6.getInt("costos_cliente");
+                                ingresosCliente = result6.getInt("ingresos_cliente");
+
+                                
+                                
                             }
                             //quita el paquete de la tabla paquetes debido a que ya esta en su destino
                             PreparedStatement declaracionPaquete = cn.prepareStatement(quitarPaquete);
                             declaracionPaquete.setInt(1, nVenta);
                             declaracionPaquete.setInt(2, nPaquete);
                             declaracionPaquete.execute();
-                            //agrega a la tabla clientes el costo que le ha costado a la empresa que su paquete este ahi
                             costosPaquete = totalHoras * costos;
                             costosCliente = costoPaquete + costosPaquete;
+                            gananciasCliente = ingresosCliente - costosCliente;
+                            //agrega el total de ganancias a la tabla clientes
+                            gananciasClientes(cn, gananciasCliente, noNit);
+                            //agrega a la tabla clientes el costo que le ha costado a la empresa que su paquete este ahi 
                             PreparedStatement declaracionCliente = cn.prepareStatement(cliente);
                             declaracionCliente.setInt(1, costosCliente);
                             declaracionCliente.setInt(2, noNit);
                             declaracionCliente.execute();  
+                            //agrega a la tabla Rutas el costo que ha tenido que la empresa tenga su paquete ahi
+                            costosRuta(cn, costosPaquete);    
                         }   
                     }    
                 } catch (SQLException ex) {
@@ -404,6 +424,38 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tablaPaquetesMouseClicked
 
+    private void costosRuta(Connection cn, int costosPaquete) throws SQLException{
+        String selectRuta = "SELECT * FROM Rutas WHERE id = ?";
+        String costoRuta = "UPDATE Rutas SET costos_ruta = ? WHERE id = ?"; 
+        String gananciasRuta = "UPDATE Rutas SET ganancias_totales = ? WHERE id = ?";
+        int nuevoValor, valorActual, ganancias, valorIngresos;
+        PreparedStatement declaracionRuta = cn.prepareStatement(selectRuta);
+        declaracionRuta.setInt(1, ruta);
+        ResultSet result = declaracionRuta.executeQuery();
+        while(result.next()){
+            valorActual = result.getInt("costos_ruta");
+            valorIngresos = result.getInt("ingresos_ruta");
+            nuevoValor = valorActual +costosPaquete;
+            ganancias = valorIngresos - nuevoValor;
+            PreparedStatement declaracionCosto = cn.prepareStatement(costoRuta);
+            declaracionCosto.setInt(1, nuevoValor);
+            declaracionCosto.setInt(2, ruta);
+            declaracionCosto.execute();
+            PreparedStatement declaracionGanancias = cn.prepareStatement(gananciasRuta);
+            declaracionGanancias.setInt(1, ganancias);
+            declaracionGanancias.setInt(2, ruta);
+            declaracionGanancias.execute();           
+        }
+    }
+    
+    private void gananciasClientes(Connection cn, int gananciasCliente, int noNit) throws SQLException{
+        String ganancias = "UPDATE Clientes SET ganancias_cliente = ? WHERE nit = ?";
+        PreparedStatement declaracionGanancia = cn.prepareStatement(ganancias);
+        declaracionGanancia.setInt(1, gananciasCliente);
+        declaracionGanancia.setInt(2, noNit);
+        declaracionGanancia.execute();
+    }
+    
     private void cajaHorasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaHorasKeyTyped
         char v = evt.getKeyChar();
         if(v<'0' || v>'9') evt.consume();
