@@ -10,15 +10,14 @@ public class HtmlClientes {
     public String fila;
     public String ultimo;
     
-    public HtmlClientes(){
-    
-    }
-    
     public void generarEncabezado(){
-        salida = "<html>\n";
-        salida += "<head><title>Salida</title></head>\n"+"<body>\n";
-        salida += "<h1>ERIK GEI</h1>";
+        salida = "<!DOCTYPE html>\n";
+        salida += "<html lang ='en'>\n";
+        salida += "<head><meta charset='UTF-8'><title>Salida</title><link rel='stylesheet' href='estilo.css'></head>\n"+"<body>\n";
+        salida += "<div id ='main-container'>";
+        salida += "<h1>REPORTE CLIENTES</h1>";
         salida += "<table>\n";
+        salida += "<thead>\n";
         salida += "<tr>\n";        
     }
     
@@ -35,11 +34,11 @@ public class HtmlClientes {
             salida += "<td><strong>"+datos[i]+"</strong></td>\n";        
         }
         salida += "</tr>";
+        salida += "</thead>\n";
     }
     
     public void generarTabla(int valor, int valor2, int valor3, int valor4, int valor5, int valor6, int valor7){
-        fila += ""; 
-        fila += "<tr>\n";
+        fila = "\n<tr>\n";
         fila += "<td>"+valor+"</td>\n";
         fila += "<td>"+valor2+"</td>\n";
         fila += "<td>"+valor3+"</td>\n";
@@ -47,12 +46,13 @@ public class HtmlClientes {
         fila += "<td>"+valor5+"</td>\n";
         fila += "<td>"+valor6+"</td>\n";
         fila += "<td>"+valor7+"</td>\n";
-        fila += "</td>\n";
+        fila += "</tr>\n";
     }
     
     
     public void parteFinal(){
-        ultimo += "</table>";
+        ultimo = "</table>";
+        ultimo += "</div>";
         ultimo += "</body>";
         ultimo += "</html>";
     }

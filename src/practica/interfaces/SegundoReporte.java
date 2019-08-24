@@ -4,6 +4,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import practica.clases.ConectorSesion;
 import practica.html.HtmlClientes;
@@ -16,7 +17,7 @@ public class SegundoReporte extends javax.swing.JInternalFrame {
 
     private DefaultTableModel dtmModel;
     private ConectorSesion login;
-    HtmlClientes html; 
+    private HtmlClientes html; 
     
     public SegundoReporte() {
         initComponents();
@@ -37,7 +38,7 @@ public class SegundoReporte extends javax.swing.JInternalFrame {
         CallableStatement cts = cn.prepareCall(sql);
         ResultSet result = cts.executeQuery();
         while(result.next()){
-            Object dato[] = new Object[7];
+            Object[] dato = new Object[7];
             dato[0] = result.getInt(2);
             dato[1] = result.getInt(6);
             dato[2] = result.getInt(7);
@@ -180,6 +181,7 @@ public class SegundoReporte extends javax.swing.JInternalFrame {
 
     private void exportadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportadorActionPerformed
         generarHtml();
+        JOptionPane.showMessageDialog(null, "El reporte ha sido exportado con exito");    
     }//GEN-LAST:event_exportadorActionPerformed
 
 

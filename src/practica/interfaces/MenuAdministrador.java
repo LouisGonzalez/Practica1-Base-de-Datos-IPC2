@@ -2,7 +2,6 @@ package practica.interfaces;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,6 +20,7 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
     public MenuAdministrador(String usuarios) {
         initComponents();
         this.usuarios = usuarios;
+        txt12.setText("Usuario: "+usuarios);
         Icon rutas = new ImageIcon(nuevaRuta.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
         Icon puntosControl = new ImageIcon(punto.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
         Icon paquetes = new ImageIcon(rango.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
@@ -41,6 +41,7 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
 
         panelFondo = new javax.swing.JPanel();
         panel2 = new javax.swing.JPanel();
+        txt12 = new javax.swing.JLabel();
         ruta = new javax.swing.JLabel();
         txt1 = new javax.swing.JLabel();
         puntoControl = new javax.swing.JLabel();
@@ -69,6 +70,23 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
         panelFondo.setBackground(new java.awt.Color(204, 255, 255));
 
         panel2.setBackground(new java.awt.Color(51, 255, 51));
+
+        javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
+        panel2.setLayout(panel2Layout);
+        panel2Layout.setHorizontalGroup(
+            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel2Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(txt12, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panel2Layout.setVerticalGroup(
+            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txt12, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                .addGap(24, 24, 24))
+        );
 
         ruta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         ruta.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -234,10 +252,9 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txt10, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-                    .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(totalPaquete, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-                        .addComponent(puntoControl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ruta, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)))
+                    .addComponent(totalPaquete, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                    .addComponent(puntoControl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ruta, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -261,8 +278,8 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
                     .addComponent(txt8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-                .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -329,6 +346,7 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
     private javax.swing.JLabel txt1;
     private javax.swing.JLabel txt10;
     private javax.swing.JLabel txt11;
+    private javax.swing.JLabel txt12;
     private javax.swing.JLabel txt2;
     private javax.swing.JLabel txt3;
     private javax.swing.JLabel txt4;

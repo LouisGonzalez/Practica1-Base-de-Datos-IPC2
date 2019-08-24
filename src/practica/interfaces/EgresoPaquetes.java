@@ -155,7 +155,7 @@ public class EgresoPaquetes extends javax.swing.JInternalFrame {
         login = new ConectorSesion();
         Connection cn = login.getConnection();
         String entregado = "DELETE FROM Bodegas_finales WHERE no_venta = ? AND no_paquete_venta = ?";
-        String borrarRegistro = "DELETE FROM Registro_horas WHERE no_venta = ? no_paquete_venta = ?";
+        String borrarRegistro = "DELETE FROM Registro_horas WHERE no_venta = ? AND no_paquete_venta = ?";
         String quitarPaqueteRuta = "UPDATE Rutas SET paquetes_en_sistema = ? WHERE id = ?";
         String paqueteEntRuta = "UPDATE Rutas SET paquetes_entregados = ? WHERE id = ?";
         String quitarPaqueteCliente = "UPDATE Clientes SET paquetes_en_sistema = ? WHERE nit = ?";

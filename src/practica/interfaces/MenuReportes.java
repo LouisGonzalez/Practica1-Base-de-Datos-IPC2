@@ -18,7 +18,9 @@ public class MenuReportes extends javax.swing.JInternalFrame {
         primerReporte = new javax.swing.JButton();
         segundoReporte = new javax.swing.JButton();
         tercerReporte = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        cuartoReporte = new javax.swing.JButton();
+        quintoReporte = new javax.swing.JButton();
+        sextoReporte = new javax.swing.JButton();
 
         panelFondo.setBackground(new java.awt.Color(204, 255, 255));
 
@@ -43,10 +45,24 @@ public class MenuReportes extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton1.setText("Reporte de rutas (ganancias)");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        cuartoReporte.setText("Reporte de rutas (ganancias)");
+        cuartoReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                cuartoReporteActionPerformed(evt);
+            }
+        });
+
+        quintoReporte.setText("Reporte de ventas");
+        quintoReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quintoReporteActionPerformed(evt);
+            }
+        });
+
+        sextoReporte.setText("Paquetes en sistema");
+        sextoReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sextoReporteActionPerformed(evt);
             }
         });
 
@@ -60,21 +76,27 @@ public class MenuReportes extends javax.swing.JInternalFrame {
                     .addComponent(segundoReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(primerReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tercerReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cuartoReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(quintoReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sextoReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(119, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFondoLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addContainerGap()
+                .addComponent(sextoReporte)
+                .addGap(12, 12, 12)
                 .addComponent(primerReporte)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(cuartoReporte)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tercerReporte)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(segundoReporte)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(quintoReporte)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -112,19 +134,35 @@ public class MenuReportes extends javax.swing.JInternalFrame {
         reportePopular.show();
     }//GEN-LAST:event_tercerReporteActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void cuartoReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuartoReporteActionPerformed
         this.dispose();
         CuartoReporte reporteGanancias = new CuartoReporte();
         MenuPrincipal.panelPadre.add(reporteGanancias);
         reporteGanancias.show();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_cuartoReporteActionPerformed
+
+    private void quintoReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quintoReporteActionPerformed
+        this.dispose();
+        QuintoReporte ventas = new QuintoReporte();
+        MenuPrincipal.panelPadre.add(ventas);
+        ventas.show();
+    }//GEN-LAST:event_quintoReporteActionPerformed
+
+    private void sextoReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sextoReporteActionPerformed
+        this.dispose();
+        SextoReporte paquetes = new SextoReporte();
+        MenuPrincipal.panelPadre.add(paquetes);
+        paquetes.show();
+    }//GEN-LAST:event_sextoReporteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton cuartoReporte;
     private javax.swing.JPanel panelFondo;
     private javax.swing.JButton primerReporte;
+    private javax.swing.JButton quintoReporte;
     private javax.swing.JButton segundoReporte;
+    private javax.swing.JButton sextoReporte;
     private javax.swing.JButton tercerReporte;
     // End of variables declaration//GEN-END:variables
 }

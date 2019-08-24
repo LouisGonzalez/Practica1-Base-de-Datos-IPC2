@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import practica.clases.ConectorSesion;
 
 /**
@@ -14,9 +15,16 @@ public class ActivadorRuta extends javax.swing.JInternalFrame {
 
     private ConectorSesion login;
     private int ruta;
+    private DefaultTableModel dtmModel;
+    private int cont = 0;
     
     public ActivadorRuta() {
         initComponents();
+        try {
+            cargar();
+        } catch (SQLException ex) {
+            Logger.getLogger(ActivadorRuta.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -29,6 +37,8 @@ public class ActivadorRuta extends javax.swing.JInternalFrame {
         txt2 = new javax.swing.JLabel();
         idRuta = new javax.swing.JTextField();
         activador = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaEstado = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -51,7 +61,7 @@ public class ActivadorRuta extends javax.swing.JInternalFrame {
             .addGroup(panel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(txt1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
         panel2Layout.setVerticalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -71,6 +81,24 @@ public class ActivadorRuta extends javax.swing.JInternalFrame {
             }
         });
 
+        tablaEstado.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id:", "Estado:"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tablaEstado);
+
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
@@ -78,12 +106,15 @@ public class ActivadorRuta extends javax.swing.JInternalFrame {
             .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panelFondoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(idRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(activador, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58))
+                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(idRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(92, 92, 92)
+                        .addComponent(activador, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,10 +125,12 @@ public class ActivadorRuta extends javax.swing.JInternalFrame {
                     .addComponent(txt2)
                     .addComponent(idRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(activador))
-                .addGap(0, 56, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(134, Short.MAX_VALUE))
         );
 
-        getContentPane().add(panelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 170));
+        getContentPane().add(panelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 510, 400));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -126,21 +159,50 @@ public class ActivadorRuta extends javax.swing.JInternalFrame {
                     declaracionValor.setInt(1, ruta);
                     declaracionValor.execute();
                     JOptionPane.showMessageDialog(null, "Ruta activada con exito");
+                    for(int i = tablaEstado.getRowCount()-1; i >=0; i--){
+                        dtmModel.removeRow(i);
+                    }
+                    cargar();
                 } else {
                     JOptionPane.showMessageDialog(null, "Esta ruta no existe en la base de datos");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(ActivadorRuta.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                login.Desconectar();
             }
         }
     }//GEN-LAST:event_activadorActionPerformed
-
+    
+    private void cargar() throws SQLException{
+        cont++;
+        login = new ConectorSesion();
+        Connection cn = login.getConnection();
+        cargarDatos(cn);
+    }
+    
+    private void cargarDatos(Connection cn) throws SQLException{
+        login = new ConectorSesion();
+        dtmModel = (DefaultTableModel) tablaEstado.getModel();
+        String sql = "SELECT * FROM Rutas WHERE estado = 'DESACTIVADA'";
+        CallableStatement cts = cn.prepareCall(sql);
+        ResultSet result = cts.executeQuery();
+        while(result.next()){
+            Object[] dato = new Object[2];
+            dato[0] = result.getInt(1);
+            dato[1] = result.getString(4);
+            dtmModel.addRow(dato);
+        }
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton activador;
     private javax.swing.JTextField idRuta;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panel2;
     private javax.swing.JPanel panelFondo;
+    private javax.swing.JTable tablaEstado;
     private javax.swing.JLabel txt1;
     private javax.swing.JLabel txt2;
     // End of variables declaration//GEN-END:variables

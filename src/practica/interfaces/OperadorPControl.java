@@ -4,6 +4,8 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import practica.clases.ConectorSesion;
 
 /**
@@ -15,9 +17,13 @@ public class OperadorPControl extends javax.swing.JInternalFrame {
     private ConectorSesion login;
     private String verOperador;
     private int id;
+    private DefaultTableModel dtmModel;
+    private JTable tablaPControl;
     
-    public OperadorPControl(int i, int id) {
+    public OperadorPControl(int i, int id, DefaultTableModel dtmModel, JTable tablaPControl) {
         initComponents();
+        this.dtmModel = dtmModel;
+        this.tablaPControl = tablaPControl;
         this.id = id;
         txt1.setText("Operador a cargo del p. Control no. "+i);
     }
@@ -108,6 +114,7 @@ public class OperadorPControl extends javax.swing.JInternalFrame {
                 if(captura.equals("Operador")){
                     estado.executeUpdate("INSERT INTO Puntos_control_ruta_"+id+" VALUES('"+0+"','"+0+"','"+5+"','"+verOperador+"','"+valorCuota+"')");
                     JOptionPane.showMessageDialog(null, "Operador agregado con exito");
+                    tabla(cn, dtmModel, tablaPControl);
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "El usuario que usted busca no es un operador");
@@ -120,6 +127,24 @@ public class OperadorPControl extends javax.swing.JInternalFrame {
         }    
     }//GEN-LAST:event_nombrarOpActionPerformed
 
+    private void tabla(Connection cn, DefaultTableModel dtmModel, JTable tablaPControl) throws SQLException{
+        for(int i = dtmModel.getRowCount()-1; i>=0; i--){
+            dtmModel.removeRow(i);
+        }
+        dtmModel = (DefaultTableModel) tablaPControl.getModel();            
+        String sql = "SELECT * FROM Puntos_control_ruta_?";
+        PreparedStatement declaracionTabla = cn.prepareStatement(sql);
+        declaracionTabla.setInt(1, id);
+        ResultSet result = declaracionTabla.executeQuery();
+        while(result.next()){
+            Object[] dato = new Object[4];
+            dato[0] = result.getInt(1);
+            dato[1] = result.getInt(3);
+            dato[2] = result.getString(4);
+            dato[3] = result.getInt(5);
+            dtmModel.addRow(dato);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton nombrarOp;

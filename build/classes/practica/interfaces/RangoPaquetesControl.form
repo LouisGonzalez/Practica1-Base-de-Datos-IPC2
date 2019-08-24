@@ -48,7 +48,6 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="txt1" min="-2" pref="338" max="-2" attributes="0"/>
                       <Component id="idRuta" min="-2" pref="67" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="txt2" min="-2" pref="176" max="-2" attributes="0"/>
@@ -56,8 +55,9 @@
                           <Component id="buscador" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="noPControl" alignment="0" min="-2" pref="64" max="-2" attributes="0"/>
+                      <Component id="txt1" alignment="0" min="-2" pref="404" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="30" max="32767" attributes="0"/>
+                  <EmptySpace pref="49" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

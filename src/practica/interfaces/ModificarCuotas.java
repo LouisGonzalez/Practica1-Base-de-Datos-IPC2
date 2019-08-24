@@ -241,13 +241,13 @@ public class ModificarCuotas extends javax.swing.JInternalFrame {
     private void cargarTabla(Connection cn) throws SQLException{
         String sql = "SELECT * FROM Cuotas";
         CallableStatement cts = cn.prepareCall(sql);
-            ResultSet result = cts.executeQuery();
-            while(result.next()){
-                Object dato[] = new Object[3];
-                for(int i = 0; i < 3; i++){
-                    dato[i] = result.getString(i+1);
-                }
-                dtmModel.addRow(dato);
+        ResultSet result = cts.executeQuery();
+        while(result.next()){
+            Object dato[] = new Object[3];
+            for(int i = 0; i < 3; i++){
+                dato[i] = result.getString(i+1);
+            }
+            dtmModel.addRow(dato);
             }
     }
     

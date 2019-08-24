@@ -168,7 +168,6 @@ public class NuevaRuta extends javax.swing.JInternalFrame {
                     while(res.next()){
                         captura2 = res.getString("id"); 
                     }
-                    JOptionPane.showMessageDialog(null, captura2);
                     estado.executeUpdate("CREATE TABLE Puntos_control_ruta_"+captura2+" (id INT AUTO_INCREMENT PRIMARY KEY, paquetes_actuales INT, paquetes_maximos INT, operador_al_mando VARCHAR(40), cuota_operacion VARCHAR(40), FOREIGN KEY (operador_al_mando) REFERENCES Usuarios (nickname) );");
                     estado.executeUpdate("INSERT INTO Puntos_control_ruta_"+captura2+" VALUES('"+0+"','"+0+"','"+5+"','"+op+"','"+valor+"')");
                     JOptionPane.showMessageDialog(null, "La ruta ha sido agregada con exito");                    

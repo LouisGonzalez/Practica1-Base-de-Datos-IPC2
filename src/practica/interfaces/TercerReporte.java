@@ -1,10 +1,12 @@
 package practica.interfaces;
+import java.io.*;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import practica.clases.ConectorSesion;
+import practica.html.HtmlRutasPopulares;
 
 /**
  *
@@ -15,6 +17,7 @@ public class TercerReporte extends javax.swing.JInternalFrame {
     private ConectorSesion login;
     private DefaultTableModel dtmModel;
     private String dia, mes, anualidad;
+    private HtmlRutasPopulares html;
     
     public TercerReporte() {
         initComponents();
@@ -36,6 +39,7 @@ public class TercerReporte extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaFechas = new javax.swing.JTable();
         buscador = new javax.swing.JButton();
+        exportador = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -119,29 +123,41 @@ public class TercerReporte extends javax.swing.JInternalFrame {
             }
         });
 
+        exportador.setText("Exportar a HTML");
+        exportador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportadorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panelFondoLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cajaDia, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txt3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cajaMes, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cajaAnualidad, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
-                        .addComponent(buscador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap()
+                        .addComponent(exportador, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelFondoLayout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelFondoLayout.createSequentialGroup()
+                                .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cajaDia, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txt3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cajaMes, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cajaAnualidad, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32)
+                                .addComponent(buscador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
@@ -159,7 +175,9 @@ public class TercerReporte extends javax.swing.JInternalFrame {
                     .addComponent(buscador))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(exportador)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -274,6 +292,33 @@ public class TercerReporte extends javax.swing.JInternalFrame {
         }
     }
     
+    private void generarHtml(){
+        File popular = new File("RutasPopulares.html");
+        html = new HtmlRutasPopulares();
+        try{
+            FileWriter redactor = new FileWriter(popular);
+            BufferedWriter buffer = new BufferedWriter(redactor);
+            html.generarEncabezado();
+            html.titulos();
+            buffer.write(html.salida);
+            buffer.newLine();
+            for(int i = 0; i < tablaFechas.getRowCount(); i++){
+                html.generarTabla(Integer.parseInt(tablaFechas.getValueAt(i, 0).toString()), Integer.parseInt(tablaFechas.getValueAt(i, 1).toString()));
+                buffer.write(html.fila);
+                buffer.newLine();
+            }
+            html.parteFinal();
+            buffer.write(html.ultimo);
+            buffer.newLine();
+            buffer.close();
+            redactor.close();
+        } catch (IOException ex) {
+            Logger.getLogger(TercerReporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        
+    }
+    
     
     private void cajaDiaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaDiaKeyTyped
         char v = evt.getKeyChar();
@@ -290,12 +335,18 @@ public class TercerReporte extends javax.swing.JInternalFrame {
         if(v<'0' || v>'9') evt.consume();
     }//GEN-LAST:event_cajaAnualidadKeyTyped
 
+    private void exportadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportadorActionPerformed
+        generarHtml();
+        JOptionPane.showMessageDialog(null, "El reporte ha sido exportado con exito");    
+    }//GEN-LAST:event_exportadorActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buscador;
     private javax.swing.JTextField cajaAnualidad;
     private javax.swing.JTextField cajaDia;
     private javax.swing.JTextField cajaMes;
+    private javax.swing.JButton exportador;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panel2;
     private javax.swing.JPanel panelFondo;

@@ -1,10 +1,12 @@
 package practica.interfaces;
-
+import java.io.*;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import practica.clases.ConectorSesion;
+import practica.html.HtmlRutasGanancias;
 
 /**
  *
@@ -14,6 +16,7 @@ public class CuartoReporte extends javax.swing.JInternalFrame {
 
     private DefaultTableModel dtmModel;
     private ConectorSesion login;
+    private HtmlRutasGanancias html;
     
     public CuartoReporte() {
         initComponents();
@@ -29,6 +32,7 @@ public class CuartoReporte extends javax.swing.JInternalFrame {
         txt1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaGanancias = new javax.swing.JTable();
+        exportador = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -48,7 +52,7 @@ public class CuartoReporte extends javax.swing.JInternalFrame {
         panel2Layout.setHorizontalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(107, Short.MAX_VALUE)
                 .addComponent(txt1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(100, 100, 100))
         );
@@ -78,23 +82,37 @@ public class CuartoReporte extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tablaGanancias);
 
+        exportador.setText("Exportar a HTML");
+        exportador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportadorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panelFondoLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(exportador, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelFondoLayout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFondoLayout.createSequentialGroup()
                 .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addComponent(exportador)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -111,6 +129,11 @@ public class CuartoReporte extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void exportadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportadorActionPerformed
+        generarHtml();
+        JOptionPane.showMessageDialog(null, "El reporte ha sido exportado con exito");    
+    }//GEN-LAST:event_exportadorActionPerformed
+
     private void cargar(){
         login = new ConectorSesion();
         Connection cn = login.getConnection();
@@ -118,6 +141,8 @@ public class CuartoReporte extends javax.swing.JInternalFrame {
             actualizarDatos(cn);
         } catch (SQLException ex) {
             Logger.getLogger(CuartoReporte.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            login.Desconectar();
         }
     }
     
@@ -136,8 +161,34 @@ public class CuartoReporte extends javax.swing.JInternalFrame {
             dtmModel.addRow(dato);
         }
     }
+    
+    private void generarHtml(){
+        File ganancias = new File("Ganancias.html");
+        html = new HtmlRutasGanancias();
+        try{
+            FileWriter redactor = new FileWriter(ganancias);
+            BufferedWriter buffer = new BufferedWriter(redactor);
+            html.generarEncabezado();
+            html.titulos();
+            buffer.write(html.salida);
+            System.out.println(tablaGanancias.getRowCount());
+            for(int i = 0; i < tablaGanancias.getRowCount(); i++){
+                html.generarTabla(Integer.parseInt(tablaGanancias.getValueAt(i, 0).toString()), tablaGanancias.getValueAt(i, 1).toString(), Integer.parseInt(tablaGanancias.getValueAt(i, 2).toString()), Integer.parseInt(tablaGanancias.getValueAt(i, 3).toString()), Integer.parseInt(tablaGanancias.getValueAt(i, 4).toString()));
+                buffer.write(html.fila);
+
+            }
+            html.parteFinal();
+            buffer.write(html.ultimo);
+          
+            buffer.close();
+            redactor.close();
+        } catch (IOException ex) {
+            Logger.getLogger(CuartoReporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton exportador;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panel2;
     private javax.swing.JPanel panelFondo;

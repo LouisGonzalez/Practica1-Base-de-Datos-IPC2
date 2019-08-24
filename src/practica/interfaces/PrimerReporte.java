@@ -1,10 +1,13 @@
 package practica.interfaces;
 
+import java.io.*;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import practica.clases.ConectorSesion;
+import practica.html.HtmlRutas;
 
 /**
  *
@@ -14,6 +17,7 @@ public class PrimerReporte extends javax.swing.JInternalFrame {
 
     private DefaultTableModel dtmModel;
     private ConectorSesion login;
+    HtmlRutas html;
     
     public PrimerReporte() {
         initComponents();
@@ -45,8 +49,29 @@ public class PrimerReporte extends javax.swing.JInternalFrame {
         }
     }
     
-    private void generarReporte(){
-        
+    private void generarHtml(){
+        File ruta = new File("Rutas.html");
+        html = new HtmlRutas();
+        try{
+            FileWriter redactor = new FileWriter(ruta);
+            BufferedWriter buffer = new BufferedWriter(redactor);
+            html.generarEncabezado();
+            html.titulos();
+            buffer.write(html.salida);
+            buffer.newLine();
+            for(int i = 0; i<tablaRutas.getRowCount(); i++){
+                html.generarTabla(Integer.parseInt(tablaRutas.getValueAt(i, 0).toString()), Integer.parseInt(tablaRutas.getValueAt(i, 1).toString()), tablaRutas.getValueAt(i, 2).toString(), tablaRutas.getValueAt(i, 3).toString(), Integer.parseInt(tablaRutas.getValueAt(i, 4).toString()), Integer.parseInt(tablaRutas.getValueAt(i, 5).toString()));
+                buffer.write(html.fila);
+                buffer.newLine();
+            }   
+            html.parteFinal();
+            buffer.write(html.ultimo);
+            buffer.newLine();
+            buffer.close();
+            redactor.close();
+        } catch (IOException ex) {
+            Logger.getLogger(PrimerReporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -109,6 +134,11 @@ public class PrimerReporte extends javax.swing.JInternalFrame {
         );
 
         exportador.setText("Exportar a HTML");
+        exportador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportadorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
@@ -148,6 +178,11 @@ public class PrimerReporte extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void exportadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportadorActionPerformed
+        generarHtml();
+        JOptionPane.showMessageDialog(null, "El reporte ha sido exportado con exito");    
+    }//GEN-LAST:event_exportadorActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

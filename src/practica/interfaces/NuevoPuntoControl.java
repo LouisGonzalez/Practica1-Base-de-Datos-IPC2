@@ -1,4 +1,5 @@
 package practica.interfaces;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,6 +8,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import practica.clases.ConectorSesion;
 
 /**
@@ -17,6 +19,8 @@ public class NuevoPuntoControl extends javax.swing.JInternalFrame {
 
     ConectorSesion login;
     private int id, puntos;
+    private DefaultTableModel dtmModel;
+    private int cont = 0;
     
     public NuevoPuntoControl() {
         initComponents();
@@ -37,6 +41,9 @@ public class NuevoPuntoControl extends javax.swing.JInternalFrame {
         txt2 = new javax.swing.JLabel();
         pControl = new javax.swing.JTextField();
         agregar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaPControl = new javax.swing.JTable();
+        txt3 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -104,19 +111,48 @@ public class NuevoPuntoControl extends javax.swing.JInternalFrame {
             }
         });
 
+        tablaPControl.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id:", "Paquetes Maximos::", "Operador:", "Cuota Operacion:"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tablaPControl);
+
+        txt3.setFont(new java.awt.Font("Dialog", 2, 10)); // NOI18N
+        txt3.setForeground(new java.awt.Color(0, 0, 102));
+        txt3.setText("(En la tabla se muestran todos los puntos de control que posee la ruta que usted mando a llamar).");
+
         javax.swing.GroupLayout fondo3Layout = new javax.swing.GroupLayout(fondo3);
         fondo3.setLayout(fondo3Layout);
         fondo3Layout.setHorizontalGroup(
             fondo3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fondo3Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(fondo3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(fondo3Layout.createSequentialGroup()
-                        .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pControl, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addGroup(fondo3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(fondo3Layout.createSequentialGroup()
+                                .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(pControl, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(fondo3Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(fondo3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt3, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         fondo3Layout.setVerticalGroup(
             fondo3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,7 +163,11 @@ public class NuevoPuntoControl extends javax.swing.JInternalFrame {
                     .addComponent(pControl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(agregar)
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt3)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
@@ -137,12 +177,12 @@ public class NuevoPuntoControl extends javax.swing.JInternalFrame {
             .addComponent(fondo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panelFondoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txt1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
                 .addComponent(idRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(verificador, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addComponent(verificador, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(fondo3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelFondoLayout.setVerticalGroup(
@@ -155,10 +195,11 @@ public class NuevoPuntoControl extends javax.swing.JInternalFrame {
                     .addComponent(idRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(verificador))
                 .addGap(18, 18, 18)
-                .addComponent(fondo3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(fondo3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(panelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 280));
+        getContentPane().add(panelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 570, 430));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -188,7 +229,7 @@ public class NuevoPuntoControl extends javax.swing.JInternalFrame {
                 ResultSet result = declaracionPreparada.executeQuery();
                 if(result.next()){
                     captura = result.getString("id");
-                    JOptionPane.showMessageDialog(null, "encontrado");
+                    cargarTabla(cn, id);
                 } else {
                     JOptionPane.showMessageDialog(null, "No encontrado");
                 }            
@@ -228,10 +269,10 @@ public class NuevoPuntoControl extends javax.swing.JInternalFrame {
                     estado.executeUpdate(nuevoValor);
                     for(int i=puntos; i>0; i--){
                         int suma = Integer.parseInt(captura)+i;
-                        OperadorPControl pControl = new OperadorPControl(suma, id);
+                        OperadorPControl pControl = new OperadorPControl(suma, id, dtmModel, tablaPControl);
                         MenuPrincipal.panelPadre.add(pControl);
                         pControl.show();
-                    }
+                    }   
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(NuevoPuntoControl.class.getName()).log(Level.SEVERE, null, ex);
@@ -242,17 +283,48 @@ public class NuevoPuntoControl extends javax.swing.JInternalFrame {
         }    
     }//GEN-LAST:event_agregarActionPerformed
 
+    private void cargarTabla(Connection cn, int id) throws SQLException{
+       cont++;
+       if(cont == 1){
+           tabla(cn);
+       } else {
+        for(int i = dtmModel.getRowCount()-1; i>=0; i--){
+            dtmModel.removeRow(i);
+        }
+        tabla(cn);
+        }    
+    }
+    
+    private void tabla(Connection cn) throws SQLException{
+        dtmModel = (DefaultTableModel) tablaPControl.getModel();            
+        String sql = "SELECT * FROM Puntos_control_ruta_?";
+        PreparedStatement declaracionTabla = cn.prepareStatement(sql);
+        declaracionTabla.setInt(1, id);
+        ResultSet result = declaracionTabla.executeQuery();
+        while(result.next()){
+            Object[] dato = new Object[4];
+            dato[0] = result.getInt(1);
+            dato[1] = result.getInt(3);
+            dato[2] = result.getString(4);
+            dato[3] = result.getInt(5);
+            dtmModel.addRow(dato);
+        }
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregar;
     private javax.swing.JPanel fondo2;
     private javax.swing.JPanel fondo3;
     private javax.swing.JTextField idRuta;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField pControl;
     private javax.swing.JPanel panelFondo;
+    private javax.swing.JTable tablaPControl;
     private javax.swing.JLabel titulo;
     private javax.swing.JLabel txt1;
     private javax.swing.JLabel txt2;
+    private javax.swing.JLabel txt3;
     private javax.swing.JButton verificador;
     // End of variables declaration//GEN-END:variables
 }

@@ -51,7 +51,7 @@ public class ModificadorTablas extends javax.swing.JInternalFrame {
                     .addGroup(panelFondoLayout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addComponent(segundaOpcion, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import practica.clases.ConectorSesion;
 
 /**
@@ -16,9 +17,15 @@ public class EliminarRutas extends javax.swing.JInternalFrame {
     private int id, lastId;
     private int[] captura2;
     private final String estadoRuta = "DESACTIVADA";
+    private DefaultTableModel dtmModel;
     
     public EliminarRutas() {
         initComponents();
+        try {
+            cargar();
+        } catch (SQLException ex) {
+            Logger.getLogger(EliminarRutas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -33,7 +40,8 @@ public class EliminarRutas extends javax.swing.JInternalFrame {
         txt3 = new javax.swing.JLabel();
         txt4 = new javax.swing.JLabel();
         confirmacion = new javax.swing.JButton();
-        verificacion = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaEstado = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -46,7 +54,7 @@ public class EliminarRutas extends javax.swing.JInternalFrame {
 
         txt1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         txt1.setForeground(new java.awt.Color(0, 0, 102));
-        txt1.setText("Eliminar Rutas:");
+        txt1.setText("Desactivar Rutas:");
 
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
@@ -66,7 +74,7 @@ public class EliminarRutas extends javax.swing.JInternalFrame {
         );
 
         txt2.setForeground(new java.awt.Color(0, 0, 102));
-        txt2.setText("No. Ruta a borrar:");
+        txt2.setText("No. Ruta a desactivar:");
 
         ruta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -76,11 +84,11 @@ public class EliminarRutas extends javax.swing.JInternalFrame {
 
         txt3.setFont(new java.awt.Font("Dialog", 2, 10)); // NOI18N
         txt3.setForeground(new java.awt.Color(0, 0, 102));
-        txt3.setText("(Al momento de borrar una ruta sus puntos de control tambien");
+        txt3.setText("(Al momento de  desactivar una ruta no podras usar sus puntos de ");
 
         txt4.setFont(new java.awt.Font("Dialog", 2, 10)); // NOI18N
         txt4.setForeground(new java.awt.Color(0, 0, 102));
-        txt4.setText("seran borrados).");
+        txt4.setText("control para ninguna operacion).");
 
         confirmacion.setText("Confirmar");
         confirmacion.addActionListener(new java.awt.event.ActionListener() {
@@ -89,12 +97,23 @@ public class EliminarRutas extends javax.swing.JInternalFrame {
             }
         });
 
-        verificacion.setText("Verificar");
-        verificacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                verificacionActionPerformed(evt);
+        tablaEstado.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id:", "Ruta:"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
+        jScrollPane1.setViewportView(tablaEstado);
 
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
@@ -104,22 +123,22 @@ public class EliminarRutas extends javax.swing.JInternalFrame {
             .addGroup(panelFondoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt3, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                    .addComponent(txt3, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
+                        .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(confirmacion, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(panelFondoLayout.createSequentialGroup()
-                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt4, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelFondoLayout.createSequentialGroup()
-                                .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txt4, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(confirmacion, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-                    .addComponent(verificacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(26, 26, 26))
+            .addGroup(panelFondoLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,10 +148,10 @@ public class EliminarRutas extends javax.swing.JInternalFrame {
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt2)
                     .addComponent(ruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(verificacion))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addComponent(confirmacion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(confirmacion))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(txt3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt4)
@@ -166,34 +185,47 @@ public class EliminarRutas extends javax.swing.JInternalFrame {
             Connection cn = login.getConnection();
             boolean interruptor = true; 
             id = Integer.parseInt(ruta.getText());
-            int captura;
             String sql = "SELECT * FROM Puntos_control_ruta_"+id+" ORDER BY id DESC LIMIT 1";
             String sql2 = "SELECT * FROM Puntos_control_ruta_"+id+" WHERE id = ?";
+            String selectRuta = "SELECT * FROM Rutas WHERE id = ?";            
             String desactivar = "UPDATE Rutas SET estado = '"+estadoRuta+"' WHERE id = ?";
             try{
-                Statement estado = cn.createStatement();
-                ResultSet res = estado.executeQuery(sql);
-                while(res.next()){
-                    lastId = res.getInt("id");
-                    captura2 = new int[lastId+1];
-                    for(int i=1; i<=lastId; i++){
-                        PreparedStatement declaracionPreparada = cn.prepareStatement(sql2);
-                        declaracionPreparada.setInt(1, i);
-                        ResultSet res2 = declaracionPreparada.executeQuery();
-                        while(res2.next()){
-                            captura2[i] = res2.getInt("paquetes_actuales");
-                            if(captura2[i]!=0){
-                                interruptor = false;
-                            }                         
+                PreparedStatement declaracionPreparada = cn.prepareStatement(selectRuta);
+                declaracionPreparada.setInt(1, id);
+                ResultSet result = declaracionPreparada.executeQuery();
+                if(result.next()){
+                
+                    Statement estado = cn.createStatement();
+                    ResultSet res = estado.executeQuery(sql);
+                    while(res.next()){
+                        lastId = res.getInt("id");
+                        captura2 = new int[lastId+1];
+                        for(int i=1; i<=lastId; i++){
+                            PreparedStatement declaracionPControl = cn.prepareStatement(sql2);
+                            declaracionPControl.setInt(1, i);
+                            ResultSet res2 = declaracionPControl.executeQuery();
+                            while(res2.next()){
+                                captura2[i] = res2.getInt("paquetes_actuales");
+                                if(captura2[i]!=0){
+                                    interruptor = false;
+                                }                            
+                            }
                         }
+                        if(interruptor == true){
+                            PreparedStatement declaracionRuta = cn.prepareStatement(desactivar);
+                            declaracionRuta.setInt(1, id);
+                            declaracionRuta.execute();
+                            for(int i = tablaEstado.getRowCount()-1; i>=0; i--){
+                                dtmModel.removeRow(i);
+                            }
+                            cargar();
+                            JOptionPane.showMessageDialog(null, "Ruta desactivada con exito");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "En este momento hay uno o varios puntos de control con actividad");
+                        }          
                     }
-                    if(interruptor == true){
-                        PreparedStatement declaracionRuta = cn.prepareStatement(desactivar);
-                        declaracionRuta.setInt(1, id);
-                        declaracionRuta.execute();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "En este momento hay uno o varios puntos de control con actividad");
-                    }          
+                } else {
+                    JOptionPane.showMessageDialog(null, "La ruta que usted busca no ha sido localizada");
                 }
             }   catch (SQLException ex) {
                 Logger.getLogger(EliminarRutas.class.getName()).log(Level.SEVERE, null, ex);
@@ -203,45 +235,32 @@ public class EliminarRutas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_confirmacionActionPerformed
 
-    private void verificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verificacionActionPerformed
-        if(ruta.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Debes llenar la casilla para continuar");
-        } else {
-            login =  new ConectorSesion();
-            Connection cn = login.getConnection();
-            id = Integer.parseInt(ruta.getText());
-            String captura = "";
-            String captura2 = "";
-            String sql = "SELECT * FROM Rutas WHERE id = ?";
-            try {
-                PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
-                declaracionPreparada.setInt(1, id);
-                ResultSet result = declaracionPreparada.executeQuery();
-                if(result.next()){
-                    captura = result.getString("id");
-                    captura2 = result.getString("destino");
-                    JOptionPane.showMessageDialog(null, "Ruta "+captura+" localizada con destino hacia "+captura2);
-                } else{
-                    JOptionPane.showMessageDialog(null, "La ruta que usted busca no ha sido localizada");
-                }  
-            } catch (SQLException ex) {
-                Logger.getLogger(EliminarRutas.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                login.Desconectar();
-            }
+    private void cargar() throws SQLException{
+        login = new ConectorSesion();
+        Connection cn = login.getConnection();
+        dtmModel = (DefaultTableModel) tablaEstado.getModel();
+        String select = "SELECT * FROM Rutas WHERE estado = 'ACTIVADA'";
+        CallableStatement cts = cn.prepareCall(select);
+        ResultSet result = cts.executeQuery();
+        while(result.next()){
+            Object[] dato = new Object[2];
+            dato[0] = result.getInt(1);
+            dato[1] = result.getString(4);
+            dtmModel.addRow(dato);
         }
-    }//GEN-LAST:event_verificacionActionPerformed
-
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton confirmacion;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panel2;
     private javax.swing.JPanel panelFondo;
     private javax.swing.JTextField ruta;
+    private javax.swing.JTable tablaEstado;
     private javax.swing.JLabel txt1;
     private javax.swing.JLabel txt2;
     private javax.swing.JLabel txt3;
     private javax.swing.JLabel txt4;
-    private javax.swing.JButton verificacion;
     // End of variables declaration//GEN-END:variables
 }
