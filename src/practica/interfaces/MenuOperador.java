@@ -1,5 +1,9 @@
 package practica.interfaces;
 
+import java.awt.Image;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author luisGonzalez
@@ -7,9 +11,12 @@ package practica.interfaces;
 public class MenuOperador extends javax.swing.JInternalFrame {
     
     private final String usuario;
+    private ImageIcon imgPaquete = new ImageIcon("/home/luisitopapurey/Escritorio/Practica 1 IPC2/Practica1 IPC2/src/practica/imagenes/traslado.jpg");
     
     public MenuOperador(String usuario) {
         initComponents();
+        Icon paquete = new ImageIcon(imgPaquete.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT));
+        puntosControl.setIcon(paquete);
         this.usuario = usuario;
         txt1.setText("Usuario: "+usuario);
     }
@@ -22,6 +29,7 @@ public class MenuOperador extends javax.swing.JInternalFrame {
         panel2 = new javax.swing.JPanel();
         txt1 = new javax.swing.JLabel();
         puntosControl = new javax.swing.JLabel();
+        txt2 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -59,22 +67,33 @@ public class MenuOperador extends javax.swing.JInternalFrame {
             }
         });
 
+        txt2.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        txt2.setForeground(new java.awt.Color(153, 0, 0));
+        txt2.setText("Traslado de Paquetes");
+
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panelFondoLayout.createSequentialGroup()
-                .addGap(123, 123, 123)
-                .addComponent(puntosControl, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addGap(159, 159, 159)
+                        .addComponent(txt2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelFondoLayout.createSequentialGroup()
+                        .addGap(172, 172, 172)
+                        .addComponent(puntosControl, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(puntosControl, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
+                .addGap(77, 77, 77)
+                .addComponent(puntosControl, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txt2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
                 .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -95,5 +114,6 @@ public class MenuOperador extends javax.swing.JInternalFrame {
     private javax.swing.JPanel panelFondo;
     private javax.swing.JLabel puntosControl;
     private javax.swing.JLabel txt1;
+    private javax.swing.JLabel txt2;
     // End of variables declaration//GEN-END:variables
 }

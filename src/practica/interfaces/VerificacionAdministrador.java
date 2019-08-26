@@ -117,6 +117,7 @@ public class VerificacionAdministrador extends javax.swing.JInternalFrame {
         if(usuario.getText().equals("") || password.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Debes llenar todas las casillas para continuar");
         } else {
+            this.dispose();
             login = new ConectorSesion();
             Connection cn = login.getConnection();
             String captura = "";

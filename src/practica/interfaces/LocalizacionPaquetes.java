@@ -17,6 +17,7 @@ public class LocalizacionPaquetes extends javax.swing.JInternalFrame {
     private DefaultTableModel dtmModel;
     private int noNit;
     private int noVenta;
+    private int cont = 0;
     
     public LocalizacionPaquetes() {
         initComponents();
@@ -202,6 +203,7 @@ public class LocalizacionPaquetes extends javax.swing.JInternalFrame {
         if(cajaNit.getText().equals("") || cajaVenta.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Debes llenar ambas casillas para continuar");
         } else {
+            cont++;
             login = new ConectorSesion();
             Connection cn = login.getConnection();
             noNit = Integer.parseInt(cajaNit.getText());
@@ -210,23 +212,14 @@ public class LocalizacionPaquetes extends javax.swing.JInternalFrame {
             String sql = "SELECT * FROM Paquetes WHERE nit_persona = ? AND no_venta = ?";
             String registroHoras = "SELECT * FROM Registro_horas WHERE nit_persona = ? AND no_venta = ?";
             try{
-                PreparedStatement declaracionBusqueda = cn.prepareStatement(sql);
-                declaracionBusqueda.setInt(1, noNit);
-                declaracionBusqueda.setInt(2, noVenta);
-                ResultSet result = declaracionBusqueda.executeQuery();
-                PreparedStatement declaracionHoras = cn.prepareStatement(registroHoras);
-                declaracionHoras.setInt(1, noNit);
-                declaracionHoras.setInt(2, noVenta);
-                ResultSet result2 = declaracionHoras.executeQuery();
-                while(result.next() && result2.next()){
-                    Object dato[] = new Object[7];
-                    for(int i=0; i<6; i++){
-                        dato[i] = result.getInt(i+1);
+                if(cont == 1){
+                    cargarDatos(cn, sql, registroHoras);
+                } else {
+                    for(int i = tablaPaquetes.getRowCount()-1; i >= 0; i--){
+                        dtmModel.removeRow(i);
                     }
-                    dato[6] = result2.getInt(4);
-                    dtmModel.addRow(dato);
+                    cargarDatos(cn, sql, registroHoras);
                 }
-                
             } catch (SQLException ex) {
                 Logger.getLogger(LocalizacionPaquetes.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
@@ -235,6 +228,26 @@ public class LocalizacionPaquetes extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_buscadorActionPerformed
 
+    private void cargarDatos(Connection cn, String sql, String registroHoras) throws SQLException{
+        PreparedStatement declaracionBusqueda = cn.prepareStatement(sql);
+        declaracionBusqueda.setInt(1, noNit);
+        declaracionBusqueda.setInt(2, noVenta);
+        ResultSet result = declaracionBusqueda.executeQuery();
+        PreparedStatement declaracionHoras = cn.prepareStatement(registroHoras);
+        declaracionHoras.setInt(1, noNit);
+        declaracionHoras.setInt(2, noVenta);
+        ResultSet result2 = declaracionHoras.executeQuery();
+        while(result.next() && result2.next()){
+            Object dato[] = new Object[7];
+            for(int i=0; i<6; i++){
+                dato[i] = result.getInt(i+1);
+            }
+            dato[6] = result2.getInt(4);
+            dtmModel.addRow(dato);
+        }
+                        
+    }
+    
     private void buscadorBodegaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscadorBodegaActionPerformed
         LocalizacionBodega bodega = new LocalizacionBodega(noNit, noVenta);
         MenuPrincipal.panelPadre.add(bodega);

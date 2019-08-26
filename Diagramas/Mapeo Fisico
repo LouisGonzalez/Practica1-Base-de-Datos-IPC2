@@ -1,0 +1,116 @@
+CREATE DATABASE Code_n_Bugs;
+
+CREATE TABLE Clientes (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	nit INT,
+	nombres VARCHAR(40),
+	apellidos VARCHAR(40),
+	domicilio VARCHAR(40),
+	telefono INT NOT NULL,
+	paquetes_entregados INT NOT NULL,
+	costos_cliente INT NOT NULL,
+	ingresos_cliente INT NOT NULL,
+	ganancias_cliente INT NOT NULL,
+	paquetes_en_sistema INT NOT NULL
+);
+
+ALTER TABLE Clientes ADD UNIQUE (nit);
+
+CREATE TABLE Cuotas (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	tipo_cuota VARCHAR(30),
+	total INT
+);
+
+CREATE TABLE Paquetes (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	nit_persona INT NOT NULL,
+	no_punto_control INT NOT NULL,
+	no_ruta INT NOT NULL,
+	no_venta INT NOT NULL,
+	no_paquete_venta INT NOT NULL,
+	costo_paquete INT NOT NULL,
+	INDEX (nit_persona),
+	FOREIGN KEY (nit_persona) REFERENCES Clientes(nit)
+);
+
+
+CREATE TABLE Registro_horas (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	nit_persona INT NOT NULL,
+	no_ruta INT NOT NULL,
+	ttotal_horas INT NOT NULL,
+	no_venta INT NOT NULL,
+	no_paquete_venta INT NOT NULL,
+	INDEX (nit_persona),
+	FOREIGN KEY (nit_persona) REFERENCES Clientes(nit)
+);
+
+CREATE TABLE Rutas (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	no_puntos_control INT,
+	destino VARCHAR (50),
+	estado VARCHAR (30),
+	paquetes_en_sistema INT NOT NULL, 
+	paquetes_entregados INT NOT NULL,
+	paquetes_totales INT NOT NULL,
+	ingresos_ruta INT NOT NULL,
+	costos_ruta INT NOT NULL,
+	ganancias_totales INT NOT NULL
+);
+
+CREATE TABLE Usuarios (
+	nombres VARCHAR (25),
+	apellidos VARCHAR (25),
+	domicilio VARCHAR (45),
+	telefono VARCHAR (8),
+	password VARCHAR (20),
+	tipo_usuario VARCHAR (25),
+	nickname VARCHAR (20) PRIMARY KEY
+);
+
+CREATE TABLE Ventas (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	nit INT,
+	no_paquetes INT NOT NULL,
+	total INT NOT NULL,
+	INDEX (nit),
+	FOREIGN KEY (nit) REFERENCES Clientes(nit)
+);
+
+CREATE TABLE Registro_fechas (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	nit_persona INT NOT NULL,
+	no_ruta INT NOT NULL,
+	no_venta INT NOT NULL,
+	no_paquete_venta INT NOT NULL,
+	fecha_ingreso VARCHAR (30),
+	INDEX (nit_persona),
+	FOREIGN KEY (nit_persona) REFERENCES Clientes(nit)
+);
+
+CREATE TABLE Bodega (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	nit_persona INT NOT NULL,
+	prioridad VARCHAR(10),
+	destino VARCHAR(40),
+	no_venta INT NOT NULL,
+	no_paquete_venta INT NOT NULL,
+	costo_paquete INT NOT NULL,
+	INDEX (nit_persona),
+	FOREIGN KEY (nit_persona) REFERENCES Clientes(nit)
+);
+
+CREATE TABLE Bodegas_finales (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	nit_persona INT NOT NULL,
+	no_ruta INT NOT NULL,
+	no_venta INT NOT NULL,
+	no_paquete_venta INT NOT NULL,
+	INDEX (nit_persona),
+	FOREIGN KEY (nit_persona) REFERENCES Clientes(nit)
+);
+
+
+
+

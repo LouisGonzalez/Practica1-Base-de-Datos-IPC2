@@ -15,6 +15,7 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
     private final ImageIcon eliminar = new ImageIcon("/home/luisitopapurey/Escritorio/Practica 1 IPC2/Practica1 IPC2/src/practica/imagenes/x-30465_960_720.png");
     private final ImageIcon imgUsuario = new ImageIcon("/home/luisitopapurey/Escritorio/Practica 1 IPC2/Practica1 IPC2/src/practica/imagenes/usuario.jpg");
     private final ImageIcon imgCuotas = new ImageIcon("/home/luisitopapurey/Escritorio/Practica 1 IPC2/Practica1 IPC2/src/practica/imagenes/dinero.jpg");
+    private final ImageIcon imgReportes = new ImageIcon("/home/luisitopapurey/Escritorio/Practica 1 IPC2/Practica1 IPC2/src/practica/imagenes/reporte.jpg");    
     private final String usuarios;
     
     public MenuAdministrador(String usuarios) {
@@ -27,6 +28,8 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
         Icon datosBorrados = new ImageIcon(eliminar.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
         Icon borrarUsuario = new ImageIcon(imgUsuario.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
         Icon cuota = new ImageIcon(imgCuotas.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
+        Icon reporte = new ImageIcon(imgReportes.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
+        reportes.setIcon(reporte);
         cuotas.setIcon(cuota);
         eliminarDatos.setIcon(datosBorrados);
         ruta.setIcon(rutas);
@@ -58,7 +61,7 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
         cuotas = new javax.swing.JLabel();
         txt8 = new javax.swing.JLabel();
         txt9 = new javax.swing.JLabel();
-        txt10 = new javax.swing.JLabel();
+        reportes = new javax.swing.JLabel();
         txt11 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -172,11 +175,11 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
         txt9.setForeground(new java.awt.Color(153, 0, 0));
         txt9.setText("las tarifas.");
 
-        txt10.setAutoscrolls(true);
-        txt10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txt10.addMouseListener(new java.awt.event.MouseAdapter() {
+        reportes.setAutoscrolls(true);
+        reportes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        reportes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt10MouseClicked(evt);
+                reportesMouseClicked(evt);
             }
         });
 
@@ -214,7 +217,7 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
                                 .addComponent(totalPaquete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(65, 65, 65)
                                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt10, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(reportes, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(panelFondoLayout.createSequentialGroup()
                                         .addGap(12, 12, 12)
                                         .addComponent(txt11, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))))
@@ -251,7 +254,7 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
                 .addComponent(aa1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txt10, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                    .addComponent(reportes, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                     .addComponent(totalPaquete, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                     .addComponent(puntoControl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ruta, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
@@ -327,11 +330,11 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
         cuota.show();
     }//GEN-LAST:event_cuotasMouseClicked
 
-    private void txt10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt10MouseClicked
+    private void reportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reportesMouseClicked
         MenuReportes reportes = new MenuReportes();
         MenuPrincipal.panelPadre.add(reportes);
         reportes.show();
-    }//GEN-LAST:event_txt10MouseClicked
+    }//GEN-LAST:event_reportesMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -341,10 +344,10 @@ public class MenuAdministrador extends javax.swing.JInternalFrame {
     private javax.swing.JPanel panel2;
     private javax.swing.JPanel panelFondo;
     private javax.swing.JLabel puntoControl;
+    private javax.swing.JLabel reportes;
     private javax.swing.JLabel ruta;
     private javax.swing.JLabel totalPaquete;
     private javax.swing.JLabel txt1;
-    private javax.swing.JLabel txt10;
     private javax.swing.JLabel txt11;
     private javax.swing.JLabel txt12;
     private javax.swing.JLabel txt2;

@@ -211,7 +211,7 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
         int costoPaquete = 0;
         int gananciasCliente = 0;
         int ingresosCliente = 0;
-        int costosCliente;
+        int costosCliente = 0;
         int nuevoControl = pControl + 1;
         //Detecta si la casilla de horas no ha sido llenada con un valor
         if(fila == 0){
@@ -226,8 +226,7 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                 String ultimoPunto = "SELECT * FROM Puntos_control_ruta_? ORDER BY id DESC LIMIT 1";
                 String modPaquete = "UPDATE Paquetes SET no_punto_control = ? WHERE no_venta = ? AND no_paquete_venta = ?";
                 String selectNit = "SELECT * FROM Paquetes WHERE no_venta = ? AND no_paquete_venta = ?";
-                String cliente = "UPDATE Clientes SET costos_cliente = ? WHERE nit = ?";
-                
+                String cliente = "UPDATE Clientes SET costos_cliente = ? WHERE nit = ?";                
                 String modPunto = "UPDATE Puntos_control_ruta_? SET paquetes_actuales = ? WHERE id = ?";  
                 String modPuntoAnt = "UPDATE Puntos_control_ruta_? SET paquetes_actuales = ? WHERE id = ?";
                 String selectPunto = "SELECT * FROM Puntos_control_ruta_? WHERE id = ?";
@@ -259,6 +258,9 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                             declaracionNit.setInt(1, nVenta);
                             declaracionNit.setInt(2, nPaquete);
                             ResultSet result5 = declaracionNit.executeQuery();
+                            while(result5.next()){
+                                noNit = result5.getInt("nit_persona");
+                            }
                             //De la tabla clientes busca los datos debidos
                             PreparedStatement declaracionBusqueda = cn.prepareStatement(paqueteCliente);
                             declaracionBusqueda.setInt(1, noNit);
@@ -267,10 +269,8 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                                 paqueteEntregado = result6.getInt("paquetes_entregados");
                                 paqueteSistema = result6.getInt("paquetes_en_sistema");
                                 costoPaquete = result6.getInt("costos_cliente");
+                                ingresosCliente = result6.getInt("ingresos_cliente");
                             }
-                            while(result5.next()){
-                                noNit = result5.getInt("nit_persona");
-                                }
                             //detecta el rango del punto de control donde sera agregado el paquete, ademas de eso tambien detecta la cantidad de paquetes que hay ahi justo en ese momento
                             while(result2.next()){
                                 paquetesActuales = result2.getInt("paquetes_actuales");
@@ -325,16 +325,14 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                                 costosCliente = costoPaquete + costosPaquete;
                                 gananciasCliente = ingresosCliente - costosCliente;
                                 //agrega el total de ganancias a la tabla clientes
-                                gananciasClientes(cn, gananciasCliente, noNit);
+                                gananciaClientes(cn, gananciasCliente, noNit);
                                 //agrega a la tabla clientes el costo que le ha costado a la empresa que su paquete este ahi
                                 PreparedStatement declaracionCliente = cn.prepareStatement(cliente);
                                 declaracionCliente.setInt(1, costosCliente);
                                 declaracionCliente.setInt(2, noNit);
                                 declaracionCliente.execute();
                                 //agrega a la tabla Rutas el costo que ha tenido que la empresa tenga su paquete ahi
-                                costosRuta(cn, costosPaquete);
-                                
-                                
+                                costosRuta(cn, costosPaquete);                
                             }
                         } else {        
                             //busca el nit de la persona que ordeno el paquete
@@ -389,10 +387,7 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                                 paqueteEntregado = result6.getInt("paquetes_entregados");
                                 paqueteSistema = result6.getInt("paquetes_en_sistema");
                                 costoPaquete = result6.getInt("costos_cliente");
-                                ingresosCliente = result6.getInt("ingresos_cliente");
-
-                                
-                                
+                                ingresosCliente = result6.getInt("ingresos_cliente");       
                             }
                             //quita el paquete de la tabla paquetes debido a que ya esta en su destino
                             PreparedStatement declaracionPaquete = cn.prepareStatement(quitarPaquete);
@@ -403,7 +398,7 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
                             costosCliente = costoPaquete + costosPaquete;
                             gananciasCliente = ingresosCliente - costosCliente;
                             //agrega el total de ganancias a la tabla clientes
-                            gananciasClientes(cn, gananciasCliente, noNit);
+                            gananciaClientes(cn, gananciasCliente, noNit);
                             //agrega a la tabla clientes el costo que le ha costado a la empresa que su paquete este ahi 
                             PreparedStatement declaracionCliente = cn.prepareStatement(cliente);
                             declaracionCliente.setInt(1, costosCliente);
@@ -448,7 +443,7 @@ public class PaquetesOperador extends javax.swing.JInternalFrame {
         }
     }
     
-    private void gananciasClientes(Connection cn, int gananciasCliente, int noNit) throws SQLException{
+    private void gananciaClientes(Connection cn, int gananciasCliente, int noNit) throws SQLException{
         String ganancias = "UPDATE Clientes SET ganancias_cliente = ? WHERE nit = ?";
         PreparedStatement declaracionGanancia = cn.prepareStatement(ganancias);
         declaracionGanancia.setInt(1, gananciasCliente);

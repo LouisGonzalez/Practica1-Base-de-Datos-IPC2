@@ -1,0 +1,58 @@
+-- MySQL dump 10.13  Distrib 5.7.27, for Linux (x86_64)
+--
+-- Host: localhost    Database: Code_n_Bugs
+-- ------------------------------------------------------
+-- Server version	5.7.27-0ubuntu0.18.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `Paquetes`
+--
+
+DROP TABLE IF EXISTS `Paquetes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Paquetes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nit_persona` int(11) NOT NULL,
+  `no_punto_control` int(11) NOT NULL,
+  `no_ruta` int(11) NOT NULL,
+  `no_venta` int(11) NOT NULL,
+  `no_paquete_venta` int(11) NOT NULL,
+  `costo_paquete` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `nit_persona` (`nit_persona`),
+  CONSTRAINT `Paquetes_ibfk_1` FOREIGN KEY (`nit_persona`) REFERENCES `Clientes` (`nit`)
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Paquetes`
+--
+
+LOCK TABLES `Paquetes` WRITE;
+/*!40000 ALTER TABLE `Paquetes` DISABLE KEYS */;
+INSERT INTO `Paquetes` VALUES (26,26641933,1,1,6,1,84),(27,26641933,1,1,6,2,74),(28,26641933,1,1,6,3,64),(29,85496353,1,2,7,1,209),(30,85496353,1,2,7,2,289),(31,85496353,1,2,7,3,259),(32,36652697,1,2,10,1,179),(33,36652697,1,2,10,2,279),(34,36652697,1,3,10,3,449),(35,78596696,1,4,8,1,569),(36,78596696,1,4,8,2,499),(37,78596696,1,4,8,3,179),(38,26654884,1,5,9,1,409),(39,26654884,1,5,9,2,839),(40,26654884,1,5,9,3,259);
+/*!40000 ALTER TABLE `Paquetes` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2019-08-25 23:22:55

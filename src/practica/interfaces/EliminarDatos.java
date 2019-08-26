@@ -15,7 +15,6 @@ public class EliminarDatos extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         panelFondo = new javax.swing.JPanel();
-        eliminarPControl = new javax.swing.JButton();
         eliminarRutas = new javax.swing.JButton();
 
         setClosable(true);
@@ -24,13 +23,6 @@ public class EliminarDatos extends javax.swing.JInternalFrame {
         setResizable(true);
 
         panelFondo.setBackground(new java.awt.Color(204, 255, 255));
-
-        eliminarPControl.setText("Eliminar Puntos de Control");
-        eliminarPControl.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eliminarPControlActionPerformed(evt);
-            }
-        });
 
         eliminarRutas.setText("Desactivar Rutas");
         eliminarRutas.addActionListener(new java.awt.event.ActionListener() {
@@ -44,20 +36,16 @@ public class EliminarDatos extends javax.swing.JInternalFrame {
         panelFondoLayout.setHorizontalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFondoLayout.createSequentialGroup()
-                .addGap(93, 93, 93)
-                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(eliminarPControl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(eliminarRutas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addGap(96, 96, 96)
+                .addComponent(eliminarRutas, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(112, Short.MAX_VALUE))
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFondoLayout.createSequentialGroup()
-                .addGap(43, 43, 43)
+                .addGap(60, 60, 60)
                 .addComponent(eliminarRutas)
-                .addGap(18, 18, 18)
-                .addComponent(eliminarPControl)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -80,15 +68,8 @@ public class EliminarDatos extends javax.swing.JInternalFrame {
         rutas.show();
     }//GEN-LAST:event_eliminarRutasActionPerformed
 
-    private void eliminarPControlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarPControlActionPerformed
-        EliminarPuntosControl pControl = new EliminarPuntosControl();
-        MenuPrincipal.panelPadre.add(pControl);
-        pControl.show();
-    }//GEN-LAST:event_eliminarPControlActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton eliminarPControl;
     private javax.swing.JButton eliminarRutas;
     private javax.swing.JPanel panelFondo;
     // End of variables declaration//GEN-END:variables

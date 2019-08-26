@@ -22,6 +22,8 @@ public class MenuReportes extends javax.swing.JInternalFrame {
         quintoReporte = new javax.swing.JButton();
         sextoReporte = new javax.swing.JButton();
 
+        setClosable(true);
+
         panelFondo.setBackground(new java.awt.Color(204, 255, 255));
 
         primerReporte.setText("Reporte de rutas");
