@@ -13,6 +13,7 @@ public class RangoPaquetesControl2 extends javax.swing.JInternalFrame {
     private ConectorSesion login;
     private int id, pControl, rango;
     
+    //metodo inicial encargado de mostrar los datos correspondientes al punto de control antes buscado
     public RangoPaquetesControl2(int id, int pControl) throws SQLException {
         initComponents();
         this.id = id;
@@ -171,14 +172,16 @@ public class RangoPaquetesControl2 extends javax.swing.JInternalFrame {
                 while(result.next()){
                     captura = result.getString("paquetes_maximos");
                     captura2 = result.getString("paquetes_actuales");
+                    //si dentro de los datos del punto de control se encuentran paquetes dentro no deja que se trabaje en el
                     if(Integer.parseInt(captura2)!=0){
                         JOptionPane.showMessageDialog(null, "Hay paquetes dentro de la cola en este instante por lo tanto no se puede modificar su rango actual");
                     } else {
-                    String nuevoValor = "UPDATE Puntos_control_ruta_"+id+" SET paquetes_maximos='"+rango+"' WHERE id='"+pControl+"'";
-                    estado.executeUpdate(nuevoValor);
-                    txt6.setText("Rango de cola actual: "+rango);
-                    JOptionPane.showMessageDialog(null, "El rango del punto de control ha sido modificado con exito");            
-                    rangoCola.setText("");
+                        //si el punto de control se encuentra vacio modificar el rango de paquetes que acepta
+                        String nuevoValor = "UPDATE Puntos_control_ruta_"+id+" SET paquetes_maximos='"+rango+"' WHERE id='"+pControl+"'";
+                        estado.executeUpdate(nuevoValor);
+                        txt6.setText("Rango de cola actual: "+rango);
+                        JOptionPane.showMessageDialog(null, "El rango del punto de control ha sido modificado con exito");            
+                        rangoCola.setText("");
                     }
                 }
             } catch(SQLException e){

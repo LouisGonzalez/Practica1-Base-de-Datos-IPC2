@@ -26,6 +26,7 @@ public class SextoReporte extends javax.swing.JInternalFrame {
         }
     }
     
+    //metodo encargado de mostrar en pantalla los datos necesarios para ese reporte
     private void cargar() throws SQLException{
         login = new ConectorSesion();
         Connection cn = login.getConnection();

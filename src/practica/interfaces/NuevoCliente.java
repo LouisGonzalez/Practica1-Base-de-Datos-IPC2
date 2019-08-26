@@ -192,6 +192,7 @@ public class NuevoCliente extends javax.swing.JInternalFrame {
             apellido = cajaApellido.getText();
             domicilio = cajaDomicilio.getText();
             telefono = Integer.parseInt(cajaTelefono.getText());
+            //inserta dentron de la tabla clientes los datos del nuevo cliente 
             String sql = "INSERT INTO Clientes VALUES ('"+0+"','"+nit+"','"+nombre+"','"+apellido+"','"+domicilio+"','"+telefono+"','"+0+"','"+0+"','"+0+"','"+0+"','"+0+"')";
             try{
                 PreparedStatement declaracion = cn.prepareStatement(sql);

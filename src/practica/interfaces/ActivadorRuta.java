@@ -146,6 +146,7 @@ public class ActivadorRuta extends javax.swing.JInternalFrame {
             String sql = "SELECT * FROM Rutas WHERE id = ?";
             String actualizacion = "UPDATE Rutas SET estado = 'ACTIVADA' WHERE id = ?";
             try {
+                //selecciona la ruta con el id a buscar
                 PreparedStatement declaracionRuta = cn.prepareStatement(sql);
                 declaracionRuta.setInt(1, ruta);
                 ResultSet result = declaracionRuta.executeQuery();
@@ -181,6 +182,7 @@ public class ActivadorRuta extends javax.swing.JInternalFrame {
         cargarDatos(cn);
     }
     
+    //metodo que se encarga de mostrar en el programa unicamente las rutas que estan desactivadas en ese instante
     private void cargarDatos(Connection cn) throws SQLException{
         login = new ConectorSesion();
         dtmModel = (DefaultTableModel) tablaEstado.getModel();

@@ -151,6 +151,7 @@ public class NuevaRuta extends javax.swing.JInternalFrame {
             String rs = "SELECT * FROM Rutas ORDER BY id DESC LIMIT 1";
             String cuota = "SELECT * FROM Cuotas WHERE id = 1";
             try {
+                //para crear una ruta antes se debe asignar a un operador al mando
                 Statement estado = cn.createStatement();
                 PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
                 declaracionPreparada.setString(1, op);
@@ -162,12 +163,15 @@ public class NuevaRuta extends javax.swing.JInternalFrame {
                 while(result3.next()){
                     valor = result3.getInt("total");
                 }
+                //si el usuario existe y es operador entonces se prosige con la operacion 
                 if(captura.equals("Operador")){
+                    //inserta dentro de la tabla rutas la nueva ruta
                     estado.executeUpdate("INSERT INTO Rutas VALUES('"+0+"','"+1+"','"+destinos+"','"+estadoRuta+"','"+0+"','"+0+"','"+0+"','"+0+"','"+0+"','"+0+"')");
                     ResultSet res = estado.executeQuery(rs);
                     while(res.next()){
                         captura2 = res.getString("id"); 
                     }
+                    //Crea la tabla de los puntos de control de esa ruta
                     estado.executeUpdate("CREATE TABLE Puntos_control_ruta_"+captura2+" (id INT AUTO_INCREMENT PRIMARY KEY, paquetes_actuales INT, paquetes_maximos INT, operador_al_mando VARCHAR(40), cuota_operacion VARCHAR(40), FOREIGN KEY (operador_al_mando) REFERENCES Usuarios (nickname) );");
                     estado.executeUpdate("INSERT INTO Puntos_control_ruta_"+captura2+" VALUES('"+0+"','"+0+"','"+5+"','"+op+"','"+valor+"')");
                     JOptionPane.showMessageDialog(null, "La ruta ha sido agregada con exito"); 

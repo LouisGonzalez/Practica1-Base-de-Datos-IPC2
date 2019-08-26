@@ -146,6 +146,7 @@ public class CuartoReporte extends javax.swing.JInternalFrame {
         }
     }
     
+    //muestra en pantalla los datos que se necesitan para el reporte
     private void actualizarDatos(Connection cn) throws SQLException {
         String sql = "SELECT * FROM Rutas";
         dtmModel = (DefaultTableModel) tablaGanancias.getModel();

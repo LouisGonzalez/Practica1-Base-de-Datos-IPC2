@@ -30,6 +30,7 @@ public class PrimerReporte extends javax.swing.JInternalFrame {
         }
     }
 
+    //metodo encargado de mostrar en pantalla los datos que se necesitan para el reporte sacados de la base de datos
     private void cargar() throws SQLException{
         login = new ConectorSesion();
         Connection cn = login.getConnection();
@@ -49,6 +50,7 @@ public class PrimerReporte extends javax.swing.JInternalFrame {
         }
     }
     
+    //metodo encargado de exportar ese reporte hacia un archivo html
     private void generarHtml(){
         File ruta = new File("Rutas.html");
         html = new HtmlRutas();

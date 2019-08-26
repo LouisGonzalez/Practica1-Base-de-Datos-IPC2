@@ -317,6 +317,7 @@ public class Factura extends javax.swing.JInternalFrame {
         if(cajaPaquetes.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Debes llenar la casilla para calcular el total");
         } else {
+            //ciclo encargado de agregar las filas correspondientes que el usuario ingreso
             noPaquetes = Integer.parseInt(cajaPaquetes.getText());
             for(int i=0; i<noPaquetes; i++){
                 dtmModel.addRow(new Object[]{i+1});
@@ -341,6 +342,7 @@ public class Factura extends javax.swing.JInternalFrame {
         String cuotaDestino = "SELECT * FROM Cuotas WHERE id = 2";
         String cuotaVip = "SELECT * FROM Cuotas WHERE id = 3";
         try {
+            //de la tabla cuotas declaraciones encargadas de sacar los datos que necesitesn
             PreparedStatement declaracionLibra = cn.prepareStatement(precioLibra);
             PreparedStatement declaracionVip = cn.prepareStatement(cuotaVip);
             PreparedStatement declaracionDestino = cn.prepareStatement(cuotaDestino);
@@ -357,6 +359,7 @@ public class Factura extends javax.swing.JInternalFrame {
                 valorVip = result3.getInt("total");
             }
             int totales = 0;
+            //calculo del total a cancelar dependiendo si se marca la casilla de prioridad
             for(int i=0; i<filas; i++){
                 valores[i] = (String) dtmModel.getValueAt(i, 1);
                 conversion[i] = Integer.parseInt(valores[i])*valorLibra;
@@ -376,6 +379,7 @@ public class Factura extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_calculoTotalActionPerformed
 
     private void eliminarFilasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarFilasActionPerformed
+        //ciclo encargado de borrar las filas si el usuario asi lo necesita
         int filas = dtmModel.getRowCount();
         for(int i=0; i<filas; i++){
             dtmModel.removeRow(0);

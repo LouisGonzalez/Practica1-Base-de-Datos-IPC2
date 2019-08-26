@@ -228,21 +228,25 @@ public class LocalizacionPaquetes extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_buscadorActionPerformed
 
+    //metodo encargado de buscar dentro de la base de datos si existe coincidencia entre los datos metidos al sistema    
     private void cargarDatos(Connection cn, String sql, String registroHoras) throws SQLException{
         PreparedStatement declaracionBusqueda = cn.prepareStatement(sql);
         declaracionBusqueda.setInt(1, noNit);
         declaracionBusqueda.setInt(2, noVenta);
         ResultSet result = declaracionBusqueda.executeQuery();
+        //si el metodo existe busca el total de horas que los paquetes han estado en sistema
         PreparedStatement declaracionHoras = cn.prepareStatement(registroHoras);
         declaracionHoras.setInt(1, noNit);
         declaracionHoras.setInt(2, noVenta);
         ResultSet result2 = declaracionHoras.executeQuery();
         while(result.next() && result2.next()){
             Object dato[] = new Object[7];
+            //ciclo encargado de ir poniendo los datos correspondientes dentro de la tabla
             for(int i=0; i<6; i++){
                 dato[i] = result.getInt(i+1);
             }
             dato[6] = result2.getInt(4);
+            //agrega los datos a la tabla
             dtmModel.addRow(dato);
         }
                         

@@ -222,11 +222,13 @@ public class NuevoPuntoControl extends javax.swing.JInternalFrame {
             Connection cn = login.getConnection();
             id = Integer.parseInt(idRuta.getText());
             String captura = "";
+            //busca la ruta que ha sido ingresada
             String sql = "SELECT * FROM Rutas WHERE id = ?";
             try{
                 PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
                 declaracionPreparada.setInt(1, id);
                 ResultSet result = declaracionPreparada.executeQuery();
+                //si la ruta existe carga los datos de la tabla de sus puntos de control
                 if(result.next()){
                     captura = result.getString("id");
                     cargarTabla(cn, id);
@@ -265,8 +267,10 @@ public class NuevoPuntoControl extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Esta ruta se encuentra desactivada por el momento, activala antes de seguir con el proceso");
                 } else {
                     int total = Integer.parseInt(captura)+puntos;
+                    //modifica en la tabla Rutas el numero de puntos de control que existen
                     String nuevoValor = "UPDATE Rutas SET no_puntos_control='"+total+"' WHERE id='"+id+"'";
                     estado.executeUpdate(nuevoValor);
+                    //debido a que cada punto de control debe estar a cargo de un operador, ciclo que se encarga de mostrar los frames necesarios para agregar operadores segun la cantidad de puntos de control que vayan a ser agregados 
                     for(int i=puntos; i>0; i--){
                         int suma = Integer.parseInt(captura)+i;
                         OperadorPControl pControl = new OperadorPControl(suma, id, dtmModel, tablaPControl);
@@ -295,6 +299,7 @@ public class NuevoPuntoControl extends javax.swing.JInternalFrame {
         }    
     }
     
+    //metodo encargado de mostrar los datos necesarios en tabla
     private void tabla(Connection cn) throws SQLException{
         dtmModel = (DefaultTableModel) tablaPControl.getModel();            
         String sql = "SELECT * FROM Puntos_control_ruta_?";

@@ -3,17 +3,46 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/EgresoPaquetes.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/LocalizacionBodega.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/ModCuotaPControl.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/SextoReporte.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/MenuRecepcionista.java</file>
             <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/html/HtmlRutasGanancias.java</file>
-            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/TercerReporte.java</file>
             <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/QuintoReporte.java</file>
-            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/MenuReportes.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/IngresoPaquetes.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/MenuAdministrador.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/OperadorPControl.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/NuevoCliente.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/NuevoPuntoControl.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/NuevoUsuario.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/RangoPaquetesControl2.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/clases/Conector.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/EliminarUsuarios.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/EliminarDatos.java</file>
             <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/PrimerReporte.java</file>
             <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/CuartoReporte.java</file>
-            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/PuntosControlOperador.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/LocalizacionPaquetes.java</file>
             <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/html/HtmlRutas.java</file>
-            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/html/HtmlVentas.java</file>
             <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/PaquetesOperador.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/clases/ConectorSesion.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/NuevaRuta.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/EliminarPuntosControl.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/SegundoReporte.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/MenuReportes.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/PuntosControlOperador.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/ActivadorRuta.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/MenuOperador.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/EliminarRutas.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/Factura.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/ModificadorTablas.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/EgresoPaquetes.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/TercerReporte.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/MenuPrincipal.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/RangoPaquetesControl.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/html/HtmlVentas.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/MenuCuotas.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/ModificarCuotas.java</file>
+            <file>file:/home/luisitopapurey/Escritorio/Practica%201%20IPC2/Practica1%20IPC2/src/practica/interfaces/VerificacionAdministrador.java</file>
         </group>
     </open-files>
 </project-private>

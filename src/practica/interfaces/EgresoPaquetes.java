@@ -20,6 +20,7 @@ public class EgresoPaquetes extends javax.swing.JInternalFrame {
         cargar();
     }
     
+    //pasa a la tabla todos los paquetes que ya estan por ser retirados
     private void cargar() {
         try {
             login = new ConectorSesion();

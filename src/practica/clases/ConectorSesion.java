@@ -16,6 +16,7 @@ public class ConectorSesion {
     private static final String password = "root";
     private static final String url = "jdbc:mysql://localhost:3306/Code_n_Bugs";
     
+    //metodo encargado de ingresar a la base de datos
     public ConectorSesion(){
         conn = null;
         try {
@@ -33,6 +34,7 @@ public class ConectorSesion {
         return conn;
     }
     
+    //metodo encargado de salir de la base de datos
     public void Desconectar(){
         conn = null;
         if(conn == null){

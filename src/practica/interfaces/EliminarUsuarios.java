@@ -32,6 +32,7 @@ public class EliminarUsuarios extends javax.swing.JInternalFrame {
         }        
     }
     
+    //metodo encargado de mostrar en pantalla todos los usuarios inscritos en el sistema
     private void actualizarDatos(Connection cn) throws SQLException{
         String sql = "SELECT * FROM Usuarios";
         dtmModel = (DefaultTableModel) tablaUsuarios.getModel();
@@ -191,20 +192,25 @@ public class EliminarUsuarios extends javax.swing.JInternalFrame {
             String sql = "SELECT * FROM Usuarios WHERE nickname = ?";
             String usuarioBorrado = "DELETE FROM Usuarios WHERE nickname = ?";
             try{
+                //busca y selecciona al usuario que ha sido ingresado
                 PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
                 declaracionPreparada.setString(1, idUsuario);
                 ResultSet result = declaracionPreparada.executeQuery();
+                //si el usuario existe capturar el tipo de usuario que es
                 while(result.next()){
                     captura = result.getString("tipo_usuario");
                 }
+                //si el usuario es administrador entonces no puede ser borrado
                 if(captura.equals("Administrador")){
                     JOptionPane.showMessageDialog(null, "Un administrador no puede eliminar la cuenta de otro administrador");
+                //si el usuario es operador proceder con la operacion
                 } else if(captura.equals("Operador")){
                     borrarUsuario(cn, usuarioBorrado, idUsuario);
                     for(int i=0; i<filas; i++){
                         dtmModel.removeRow(0);
                     }
                     actualizarDatos(cn);
+                    //si el usuario es recepcionista proceder con la operacion
                 } else if(captura.equals("Recepcionista")){
                     borrarUsuario(cn, usuarioBorrado, idUsuario);
                     for(int i=0; i<filas; i++){

@@ -197,6 +197,7 @@ public class ModificarCuotas extends javax.swing.JInternalFrame {
             String cuota3 = "UPDATE Cuotas SET total = ? WHERE id = 3";
             String cuota4 = "UPDATE Cuotas SET total = ? WHERE id = 4";
             try{
+                //dependiendo de la cuota que see desee cambiar se hace la sentencia
                 switch (tipo_cuota) {
                     case "Tarifa de operacion global":
                         PreparedStatement declaracionCuota1 = cn.prepareStatement(cuota1);
@@ -238,6 +239,7 @@ public class ModificarCuotas extends javax.swing.JInternalFrame {
         }    
     }//GEN-LAST:event_botonGuardarActionPerformed
 
+    //metodo que se encarga de mostrar en pantalla los datos actuales de las cuotas    
     private void cargarTabla(Connection cn) throws SQLException{
         String sql = "SELECT * FROM Cuotas";
         CallableStatement cts = cn.prepareCall(sql);

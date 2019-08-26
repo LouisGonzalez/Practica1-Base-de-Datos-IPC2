@@ -157,10 +157,12 @@ public class ModCuotaPControl extends javax.swing.JInternalFrame {
             String sql2 = "SELECT * FROM Puntos_control_ruta_"+idRuta+" WHERE id = ?";
             String cuota = "UPDATE Puntos_control_ruta_"+idRuta+" SET cuota_operacion = ? WHERE id ="+idPControl; 
             try{
+                //se busca la ruta que el usuario ingreso
                 PreparedStatement declaracionRuta = cn.prepareStatement(sql);
                 declaracionRuta.setInt(1, idRuta);
                 ResultSet result = declaracionRuta.executeQuery();
                 if(result.next()){
+                    //si la ruta existe pero esta desactivada entonces no se podra trabajar con ella
                     estadoActual = result.getString("estado");
                     if(estadoActual.equals("DESACTIVADA")){
                         JOptionPane.showMessageDialog(null, "Esta ruta se encuentra desactivada por el momento, porfavor activala antes de seguir con el proceso");
@@ -169,6 +171,7 @@ public class ModCuotaPControl extends javax.swing.JInternalFrame {
                         declaracionPControl.setInt(1, idPControl);
                         ResultSet result2 = declaracionPControl.executeQuery();
                         if(result2.next()){
+                            //si la ruta existe y esta activada modifica los datos de la cuota laboral del punto de control que se requiere
                             PreparedStatement declaracionValor = cn.prepareStatement(cuota);
                             declaracionValor.setInt(1, nuevoValor);
                             declaracionValor.execute();

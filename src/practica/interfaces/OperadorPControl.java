@@ -100,6 +100,7 @@ public class OperadorPControl extends javax.swing.JInternalFrame {
             String cuota = "SELECT * FROM Cuotas WHERE id = 1";
             try {
                 Statement estado = cn.createStatement();
+                //busca el usuario que se ha ingresado en la base de datos
                 PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
                 declaracionPreparada.setString(1, verOperador);
                 ResultSet result = declaracionPreparada.executeQuery();
@@ -111,7 +112,9 @@ public class OperadorPControl extends javax.swing.JInternalFrame {
                 while(result2.next()){
                     valorCuota = result2.getInt("total");
                 }
+                //si el usuario existe y el usuario es operador proseguir con la operacion
                 if(captura.equals("Operador")){
+                    //agrega en la tabla de puntos de control los operadores debidos
                     estado.executeUpdate("INSERT INTO Puntos_control_ruta_"+id+" VALUES('"+0+"','"+0+"','"+5+"','"+verOperador+"','"+valorCuota+"')");
                     JOptionPane.showMessageDialog(null, "Operador agregado con exito");
                     tabla(cn, dtmModel, tablaPControl);

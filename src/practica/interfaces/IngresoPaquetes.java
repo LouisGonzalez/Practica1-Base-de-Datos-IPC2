@@ -135,22 +135,23 @@ public class IngresoPaquetes extends javax.swing.JInternalFrame {
             login = new ConectorSesion();
             Connection cn = login.getConnection();
             nitCliente = Integer.parseInt(nit.getText());
-            String captura = "";
             String sql = "SELECT * FROM Clientes WHERE nit = ?";
             if(nitCliente>99999999 || nitCliente<10000000){
                 JOptionPane.showMessageDialog(null, "Un nit no puede ser un numero que no tenga 8 digitos");
             } else {
                 try{
+                    //busca el cliente que el recepcionista intenta encontrar
                     PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
                     declaracionPreparada.setInt(1, nitCliente);
                     ResultSet result = declaracionPreparada.executeQuery();
+                    //si el cliente existe procede al Frame de facturas para continuar con el pago
                     if(result.next()){
-                        JOptionPane.showMessageDialog(null, "encontrado");
                         this.dispose();
                         Factura factura = new Factura(nitCliente);
                         MenuPrincipal.panelPadre.add(factura);
                         factura.show();
                     } else {
+                        //si el cliente no existe se procede a ingresarlo a la base de datos
                         JOptionPane.showMessageDialog(null, "No existe este nit en la base de datos, se procedera a crear el cliente");
                         this.dispose();
                         NuevoCliente nuevo = new NuevoCliente(nitCliente);

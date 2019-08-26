@@ -218,13 +218,16 @@ public class NuevoUsuario extends javax.swing.JInternalFrame {
         conector[4] = password.getText();
         conector[5] = tipoUsuario.getSelectedItem().toString();
         conector[6] = nick.getText();
+        //mientras todas las casillas no sean llenadas no se puede proseguir con la operacion
         if(conector[0].equals("") || conector[1].equals("") || conector[2].equals("") || conector[3].equals("") || conector[4].equals("") || conector[6].equals("")){
             JOptionPane.showMessageDialog(null, "Debes llenar todos los parametros");
         } else if(Integer.parseInt(telefono.getText())<10000000 || Integer.parseInt(telefono.getText())>99999999){
                 JOptionPane.showMessageDialog(null, "La cantidad de digitos en un telefono debe ser de 8");
         } else {
+            //si todas las condicionales fueron cumplidas agregar al nuevo usuario a la base de datos
             con = new Conector(conector);
             Connection reg = con.getConnection();
+            //limpieza de casillas luego de la operacion
             nombre.setText("");
             apellido.setText("");
             domicilio.setText("");

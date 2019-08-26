@@ -30,6 +30,7 @@ public class QuintoReporte extends javax.swing.JInternalFrame {
         }
     }
     
+    //metodo encargado de mostrar en pantalla los datos necesarios para ese reporte
     private void cargar() throws SQLException{
         login = new ConectorSesion();
         Connection cn = login.getConnection();
@@ -47,6 +48,7 @@ public class QuintoReporte extends javax.swing.JInternalFrame {
         }
     }
     
+    //metodo encargado de exportar ese reporte a un archivo html
     private void generarHtml(){
         File venta = new File("Ventas.html");
         html = new HtmlVentas();

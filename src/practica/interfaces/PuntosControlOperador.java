@@ -35,8 +35,10 @@ public class PuntosControlOperador extends javax.swing.JInternalFrame {
         String pControl2 = "SELECT * FROM Puntos_control_ruta_? ORDER BY id DESC LIMIT 1";
         String busqueda = "SELECT * FROM Puntos_control_ruta_? WHERE id = ?";
         try{
+            //busca y selecciona la primer ruta que existe
             PreparedStatement declaracionPrimero = cn.prepareStatement(primerRuta);
             ResultSet result = declaracionPrimero.executeQuery();
+            //busca y selecciona la ultima ruta que existe
             PreparedStatement declaracionUltimo = cn.prepareStatement(ultimaRuta);
             ResultSet result2 = declaracionUltimo.executeQuery();
             while(result.next()){
@@ -45,13 +47,17 @@ public class PuntosControlOperador extends javax.swing.JInternalFrame {
             while(result2.next()){
                 ultimo = result2.getInt("id");
             }
+            //ciclo encargado de recorrer las rutas desde la primera hasta la final 
             for(int i = primero; i<=ultimo; i++){
+                //dentro de el ciclo busca el primer punto de control de la ruta con iteracion que corresponda
                 PreparedStatement declaracionId = cn.prepareStatement(pControl);
                 declaracionId.setInt(1, i);
                 ResultSet result3 = declaracionId.executeQuery();
+                //dentro de el ciclo busca el ultimo punto de control de la ruta con iteracion que corresponda
                 PreparedStatement declaracionUltId = cn.prepareStatement(pControl2);
                 declaracionUltId.setInt(1, i);
                 ResultSet result4 = declaracionUltId.executeQuery();
+                //busca el destino a donde se dirije la ruta
                 PreparedStatement declaracionDestino = cn.prepareStatement(destino);
                 declaracionDestino.setInt(1, i);
                 ResultSet result7 = declaracionDestino.executeQuery();
@@ -64,6 +70,7 @@ public class PuntosControlOperador extends javax.swing.JInternalFrame {
                 while(result4.next()){
                     ultimoPunto = result4.getInt("id");
                 }
+                //segundo ciclo que se encarga de buscar dentro de los puntos de control el operador que esta al mando
                 for(int x = primerPunto; x<=ultimoPunto; x++){
                     PreparedStatement declaracionBusqueda = cn.prepareStatement(busqueda);
                     declaracionBusqueda.setInt(1, i);
@@ -72,6 +79,7 @@ public class PuntosControlOperador extends javax.swing.JInternalFrame {
                     while(result5.next()){
                         operador = result5.getString("operador_al_mando");
                     }
+                    //si hay coincidencia con el operador que ha iniciado sesion agrega a la tabla los datos de ese punto de control.
                     if(operador.equals(usuario)){
                        dtmModel.addRow(new Object[]{x, i, destinoRuta});                    
                     } 

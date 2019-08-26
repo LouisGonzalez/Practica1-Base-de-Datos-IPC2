@@ -30,6 +30,7 @@ public class SegundoReporte extends javax.swing.JInternalFrame {
         }
     }
 
+    //metodo encargado de mostrar en pantalla los datos necesarios para ese reporte
     private void cargar() throws SQLException{
         login = new ConectorSesion();
         Connection cn = login.getConnection();
@@ -50,6 +51,7 @@ public class SegundoReporte extends javax.swing.JInternalFrame {
         }
     }
     
+    //metodo encargado de exportar los datos de ese reporte a un archivo html
     private void generarHtml(){
         File cliente = new File("Clientes.html");
         html = new HtmlClientes();

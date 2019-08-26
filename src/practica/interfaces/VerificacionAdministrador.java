@@ -125,6 +125,7 @@ public class VerificacionAdministrador extends javax.swing.JInternalFrame {
             pass = password.getText();
             String sql = "SELECT * FROM Usuarios WHERE nickname = ? AND password = ? ";
             try { 
+                //busca dentro de la tabla Usuarios si hay coincidencia con los dos datos antes ingresados
                 PreparedStatement declaracionPreparada = cn.prepareStatement(sql);
                 declaracionPreparada.setString(1, user);
                 declaracionPreparada.setString(2, pass);
@@ -132,6 +133,7 @@ public class VerificacionAdministrador extends javax.swing.JInternalFrame {
                 while(result.next()){
                     captura=result.getString("tipo_usuario");                
                 }
+                //si hay coincidencia y el usuario es Administrador entonces proseguir con la operacion de lo contrario no dejara que siga al siguiente formulario
                 if(captura.equals("Administrador")){
                     NuevoUsuario nuevo = new NuevoUsuario();
                     MenuPrincipal.panelPadre.add(nuevo);

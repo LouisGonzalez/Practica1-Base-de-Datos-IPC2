@@ -190,27 +190,32 @@ public class EliminarRutas extends javax.swing.JInternalFrame {
             String selectRuta = "SELECT * FROM Rutas WHERE id = ?";            
             String desactivar = "UPDATE Rutas SET estado = '"+estadoRuta+"' WHERE id = ?";
             try{
+                //busca y selecciona en la base de datos la ruta que ha sido buscada
                 PreparedStatement declaracionPreparada = cn.prepareStatement(selectRuta);
                 declaracionPreparada.setInt(1, id);
                 ResultSet result = declaracionPreparada.executeQuery();
-                if(result.next()){
-                
+                if(result.next()){              
+                    //Si la ruta existe busca la tabla de sus puntos de control
                     Statement estado = cn.createStatement();
                     ResultSet res = estado.executeQuery(sql);
                     while(res.next()){
                         lastId = res.getInt("id");
                         captura2 = new int[lastId+1];
+                        //ciclo que se encarga de recorrer todos los puntos de control de esa ruta
                         for(int i=1; i<=lastId; i++){
                             PreparedStatement declaracionPControl = cn.prepareStatement(sql2);
                             declaracionPControl.setInt(1, i);
                             ResultSet res2 = declaracionPControl.executeQuery();
+                            //si en uno de los puntos de control hay uno o mas paquetes dar un mensaje al programa
                             while(res2.next()){
                                 captura2[i] = res2.getInt("paquetes_actuales");
                                 if(captura2[i]!=0){
+                                    //interruptor que detecta si un punto de control tiene o no paquetes
                                     interruptor = false;
                                 }                            
                             }
                         }
+                        //si ningun punto de control tiene paquetes dentro proceder a desactivar la ruta
                         if(interruptor == true){
                             PreparedStatement declaracionRuta = cn.prepareStatement(desactivar);
                             declaracionRuta.setInt(1, id);
@@ -235,6 +240,7 @@ public class EliminarRutas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_confirmacionActionPerformed
 
+    //metodo encargado de mostrar en pantalla todas las rutas activadas en ese instante
     private void cargar() throws SQLException{
         login = new ConectorSesion();
         Connection cn = login.getConnection();

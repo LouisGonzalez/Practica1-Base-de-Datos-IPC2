@@ -126,9 +126,11 @@ public class RangoPaquetesControl extends javax.swing.JInternalFrame {
                 if(result.next()){
                     captura = result.getString("no_puntos_control");
                     estadoActual = result.getString("estado");
+                    //si la ruta se encuentra desactivada en ese momento no deja que se pueda trabajar o escribir en ella
                     if(estadoActual.equals("DESACTIVADA")){
                         JOptionPane.showMessageDialog(null, "La ruta se encuentra desactivada por el momento, activala antes de seguir con el proceso");
                     } else {
+                        //si la ruta y el punto de control existen continuar con la operacion llevandolo al siguiente formulario
                         if(valorPControl<=Integer.parseInt(captura)){
                             RangoPaquetesControl2 control = new RangoPaquetesControl2(valorId, valorPControl);
                             MenuPrincipal.panelPadre.add(control);
